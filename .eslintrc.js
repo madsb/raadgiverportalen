@@ -37,6 +37,7 @@ module.exports = {
   plugins: ['vue', '@typescript-eslint/eslint-plugin', '@typescript-eslint/tslint'],
   ignorePatterns: ["build/**"],
   rules: {
+    '@typescript-eslint/no-unsafe-argument': 'off',
     '@typescript-eslint/no-unsafe-return': 'off',
     '@typescript-eslint/no-unsafe-member-access': 'off',
     '@typescript-eslint/no-floating-promises': 'off',

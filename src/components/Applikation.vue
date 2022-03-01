@@ -42,7 +42,7 @@
 
     <h3>Eksternt komponent:</h3>
     <div class="mb-5">Eksempel på brug af ekstern Vue komponent</div>
-    <ExternalComponent title="Test af mulitple komponenter med eksternt CSS stylesheet" />
+    <ExternalComponent title="Test af multiple komponenter med eksternt CSS stylesheet" />
 
     <h3>API:</h3>
     <div>
@@ -63,7 +63,7 @@
     </div>
 
     <h3>Responsive</h3>
-    Man kan bruge hjælpeklasserne i <strong>src/styles/mixins/_mediaquery-helpers.scss</strong> til at håndtere responsive design. Filen
+    Man kan bruge hjælpe klasserne i <strong>src/styles/mixins/_mediaquery-helpers.scss</strong> til at håndtere responsive design. Filen
     <strong>src/styles/components/_applikation.scss</strong> viser et eksempel på dette.
     <div class="responsive-class mt-5">Baggrundsfarven på dette element ændrer farve når skærmstørrelsen skifter mellem small, medium og large</div>
 
