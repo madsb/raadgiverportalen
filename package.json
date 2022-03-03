@@ -9,6 +9,7 @@
     "transpile-test": "cross-env VG_VUE_TRANSPILE=true vue-cli-service build --inline-vue --target lib --formats umd-min --dest build/transpiled --name=f957085aeab09f8d18000e98508c85b95655da84 src/components/Applikation.vue"
   },
   "dependencies": {
+    "@erst-vg/piwik-event-wrapper": "^1.0.1",
     "axios": "^0.21.1",
     "dkfds": "7.4.0",
     "dkfds-plugins": "6.0.1",

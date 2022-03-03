@@ -27,7 +27,8 @@
       </div>
     </div>
     <div>
-      <button v-for="index in maxStep" :key="index" class="button button-primary" @click="changeStep(index)">Trin #{{ index }}</button>
+      <button class="button button-primary" @click="decreaseStep()">Forrige</button>
+      <button class="button button-primary" @click="increaseStep()">Næste</button>
     </div>
     <h3>Parameter variant:</h3>
     <div>
@@ -114,6 +115,26 @@
         står side om side.
       </div>
     </div>
+
+    <h3>Data opsamling</h3>
+    Virksomhedsguiden opsamler data vedr. brugerens adfærd. Det er leverandørens ansvar at der også opsamles relevant data i leverandør applikationen.
+    Følgende er en liste af events, som leverandør applikationen skal kalde i forskellige scenarier.
+
+    <h4>AppDownload</h4>
+    <div class="my-5">Dette event bruges ved tryk på en download-knap eller tilsvarende.</div>
+    <button class="button button-primary" @click="emitDownloadEvent">Download event</button>
+    <h4>AppCTAClick</h4>
+    <div class="my-5">
+      Dette event bruges ved tryk på andre knapper end ovenstående - fx "åben accordion". Det anbefales som udgangspunkt, at man begrænser brugen af
+      denne event-type.
+    </div>
+    <button class="button button-primary" @click="emitCTAClickEvent">Call to action event</button>
+    <h4>AppFritekst</h4>
+    <div class="my-5">
+      Dette event kan bruges, hvis intet andet event slår til. Det anbefales dog stærkt, at man overvejer om et af ovenstående events kan bruges i
+      stedet for.
+    </div>
+    <button class="button button-primary" @click="emitFritekstEvent">Fritekst event</button>
   </div>
 </template>
 
@@ -122,6 +143,7 @@ import axios from 'axios';
 import ExternalComponent from './ExternalComponent.vue';
 import SvgIcons from './SvgIcons.vue';
 import * as DKFDS from 'dkfds';
+import * as DataEvent from '@erst-vg/piwik-event-wrapper';
 
 export interface Variant {
   navn: string;
@@ -169,6 +191,7 @@ export default {
     new DKFDS.Accordion(document.getElementById('accordion-element'));
   },
   created() {
+    window.location.hash = '1';
     window.addEventListener('hashchange', this.updateStepFromHash);
   },
   destroyed() {
@@ -194,12 +217,45 @@ export default {
           this.pending = false;
         });
     },
-    changeStep(step: number) {
-      window.location.hash = String(step);
+    decreaseStep() {
+      if (window.location.hash !== '#1') {
+        const { hash, pathname } = window.location;
+        const previousHash = String(parseInt(this.removeHash(hash), 10) - 1);
+        const previousUrl = pathname + '#' + previousHash;
+        DataEvent.emitForrigeEvent(this, previousUrl);
+        window.location.hash = previousHash;
+      }
+    },
+    increaseStep() {
+      if (window.location.hash !== '#' + this.maxStep) {
+        const { hash, pathname } = window.location;
+        const previousHash = String(parseInt(this.removeHash(hash), 10) + 1);
+        const nextUrl = pathname + '#' + previousHash;
+        DataEvent.emitNaesteEvent(this, nextUrl);
+        window.location.hash = previousHash;
+      }
     },
     updateStepFromHash() {
       const { hash } = window.location;
-      this.step = hash ? parseInt(hash.replaceAll('#', ''), 10) : 1;
+      this.step = hash ? parseInt(this.removeHash(hash), 10) : 1;
+      DataEvent.emitPageViewEvent(this);
+    },
+    removeHash(hash: string) {
+      return hash.replaceAll('#', '');
+    },
+    // Data collection methods
+    emitDownloadEvent() {
+      DataEvent.emitDownloadEvent(this, 'doc.pfd', 'download data');
+    },
+    emitCTAClickEvent() {
+      DataEvent.emitCTAClickEvent(this, 'eventType', 'CTA data');
+    },
+    emitFritekstEvent() {
+      const data = {
+        step: this.step,
+        maxStep: this.maxStep
+      };
+      DataEvent.emitFritekstEvent(this, 'eventType', JSON.stringify(data));
     }
   }
 };
