@@ -9,20 +9,26 @@
     "transpile-test": "cross-env VG_VUE_TRANSPILE=true vue-cli-service build --inline-vue --target lib --formats umd-min --dest build/transpiled --name=f957085aeab09f8d18000e98508c85b95655da84 src/components/Applikation.vue"
   },
   "dependencies": {
-    "@erst-vg/piwik-event-wrapper": "^1.0.1",
-    "axios": "^0.21.1",
+    "@erst-vg/piwik-event-wrapper": "1.0.1",
+    "axios": "0.21.4",
     "dkfds": "7.4.0",
     "dkfds-plugins": "6.0.1",
-    "regenerator": "^0.14.7",
-    "regenerator-runtime": "^0.13.7",
     "runtime": "0.14.1",
     "vue": "2.6.11",
-    "vue-axios": "^2.1.5",
-    "humps": "^2.0.1",
-    "ol": "^6.12.0",
-    "tippy.js": "^6.3.7",
-    "vue-multiselect": "^2.1.6",
-    "vuex": "^3.6.2"
+    "vue-axios": "2.1.5",
+    "humps": "2.0.1",
+    "ol": "6.13.0",
+    "tippy.js": "6.3.7",
+    "vue-multiselect": "2.1.6",
+    "vue-html2pdf": "1.8.0",
+    "vue-apexcharts": "1.6.2",
+    "apexcharts": "3.33.2",
+    "vue-simpleform": "1.0.5",
+    "vuex": "3.6.2",
+    "contentful-rich-text-vue-renderer": "1.1.5",
+    "@sanity/block-content-to-html": "2.0.0",
+    "@sanity/client": "2.23.2",
+    "sanity-blocks-vue-component": "1.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.10.4",
@@ -60,8 +66,8 @@
     "vue-template-compiler": "2.6.11",
     "webpack": "^4.44.1",
     "webpack-bundle-analyzer": "^4.4.2",
-    "@types/ol": "^6.5.3",
-    "@types/humps": "^2.0.1"
+    "@types/ol": "6.5.3",
+    "@types/humps": "2.0.1"
   },
   "overrides": {
     "node-ipc@>9.2.1 <10": "9.2.1",
