@@ -62,5 +62,9 @@
     "webpack-bundle-analyzer": "^4.4.2",
     "@types/ol": "^6.5.3",
     "@types/humps": "^2.0.1"
+  },
+  "overrides": {
+    "node-ipc@>9.2.1 <10": "9.2.1",
+    "node-ipc@>10.1.0": "10.1.0"
   }
 }
