@@ -1,6 +1,6 @@
 import 'dkfds/dist/css/dkfds.min.css';
 import Vue from 'vue';
-// INFO: Changes to this file will not be included in final build
+// INFO: Bemærk ændringer til denne fil, vil ikke blive inkluderet i den endelige applikation
 const App = () => import(/* webpackPreload: true */ './App.vue');
 
 Vue.config.productionTip = false;

@@ -1,10 +1,10 @@
-<!-- The entry point for the sandkasse applikation. Direct and indirect imports of components and stylesheets in this class will be included in the final applikation -->
+<!-- Indgangspunktet for sandkasse-applikationen. Direkte og indirekte importering af komponenter og stylesheets i denne klasse vil blive inkluderet i den endelig applikation. -->
 <template>
   <div class="applikation-container">
     <SvgIcons />
     <h3>Navigation</h3>
     <div>
-      Eksempel på simpel navigation inde i leverandør applikationen, hvor visning af trin styres med Vue v-show direktiv. Det er applikationen selv,
+      Eksempel på simpel navigation inde i leverandør-applikationen, hvor visning af trin styres med Vue v-show direktiv. Det er applikationen selv,
       som skal lytte på <strong>hashchange</strong> event, og efterfølgende implementere logikken når # ændres.
     </div>
     <h4>Du er på trin {{ step }}/{{ maxStep }}</h4>
@@ -40,11 +40,6 @@
     <div class="py-5 align-text-center" :style="{ 'background-color': variantColor }">
       Baggrundsfarven bestemmes af parameter varianten ({{ variantName }})
     </div>
-
-    <h3>Eksternt komponent:</h3>
-    <div class="mb-5">Eksempel på brug af ekstern Vue komponent</div>
-    <ExternalComponent title="Test af multiple komponenter med eksternt CSS stylesheet" />
-
     <h3>API:</h3>
     <div>
       Eksempel på brug af <a href="https://www.npmjs.com/package/axios">Axios</a> biblioteket til at kalde eksternt API og vise spinner ved asynkrone
@@ -115,11 +110,11 @@
         står side om side.
       </div>
     </div>
-
+    <CustomMultiselect />
+    <StateComponent />
     <h3>Data opsamling</h3>
-    Virksomhedsguiden opsamler data vedr. brugerens adfærd. Det er leverandørens ansvar at der også opsamles relevant data i leverandør applikationen.
-    Følgende er en liste af events, som leverandør applikationen skal kalde i forskellige scenarier.
-
+    Virksomhedsguiden opsamler data vedr. brugerens adfærd. Det er leverandørens ansvar at der også opsamles relevant data i leverandør-applikationen.
+    Følgende er en liste af events, som leverandør-applikationen skal kalde i forskellige scenarier.
     <h4>AppDownload</h4>
     <div class="my-5">Dette event bruges ved tryk på en download-knap eller tilsvarende.</div>
     <button class="button button-primary" @click="emitDownloadEvent">Download event</button>
@@ -140,10 +135,12 @@
 
 <script lang="ts">
 import axios from 'axios';
-import ExternalComponent from './ExternalComponent.vue';
 import SvgIcons from './SvgIcons.vue';
+import CustomMultiselect from './CustomMultiselect.vue';
+import StateComponent from './StateComponent.vue';
 import * as DKFDS from 'dkfds';
 import * as DataEvent from '@erst-vg/piwik-event-wrapper';
+import { store } from '../store/';
 
 export interface Variant {
   navn: string;
@@ -157,8 +154,9 @@ export interface Variant {
 export default {
   name: 'Applikation',
   components: {
-    ExternalComponent,
-    SvgIcons
+    SvgIcons,
+    CustomMultiselect,
+    StateComponent
   },
   props: {
     variant: {
@@ -174,7 +172,8 @@ export default {
       error: false,
       pending: false,
       step: 1,
-      maxStep: 3
+      maxStep: 3,
+      reactiveKey: 1
     };
   },
 
@@ -191,6 +190,13 @@ export default {
     new DKFDS.Accordion(document.getElementById('accordion-element'));
   },
   created() {
+    /**
+     * Lyt på Vuex store ændringer, og opdater reactiveKey hver gang der committes en Vuex mutation. Man kan evt. bruge mutation type
+     * til at styre om og hvornår den skal opdateres eller lytte på noget mere specifikt.
+     */
+    this.$store.subscribe(() => {
+      this.reactiveKey++;
+    });
     window.location.hash = '1';
     window.addEventListener('hashchange', this.updateStepFromHash);
   },
@@ -205,15 +211,15 @@ export default {
       axios
         .get(`https://jsonplaceholder.typicode.com/todos/${id}`)
         .then(({ data }) => {
-          // will show the returned data in DOM
+          // Vil sørge for response data vises i DOM
           this.response = data;
         })
         .catch(() => {
-          // will make the error message DOM visible
+          // vil sørge for fejlbeskeder vises i DOM
           this.error = true;
         })
         .finally(() => {
-          // stop showing loading spinner
+          // vil sørge for loading spinner skjules
           this.pending = false;
         });
     },
@@ -243,7 +249,7 @@ export default {
     removeHash(hash: string) {
       return hash.replaceAll('#', '');
     },
-    // Data collection methods
+    // Data opsamlingsmetoder
     emitDownloadEvent() {
       DataEvent.emitDownloadEvent(this, 'doc.pfd', 'download data');
     },
@@ -257,7 +263,20 @@ export default {
       };
       DataEvent.emitFritekstEvent(this, 'eventType', JSON.stringify(data));
     }
-  }
+  },
+  provide() {
+    // Gør 'reactiveKey' tilgængelig for underkomponenter (uanset dybde), som kan bruges til at sørge for Vuex getters er reaktive.
+    const reactiveKey = {};
+    Object.defineProperty(reactiveKey, 'value', {
+      enumerable: true,
+      get: () => this.reactiveKey
+    });
+    return {
+      reactiveKey
+    };
+  },
+  // Tilføj Vuex store til applikationen
+  store
 };
 </script>
 <style lang="scss" scoped>

@@ -1,4 +1,4 @@
-<!-- Collection of SVG icons used by the sandkasse applikation. Additional icons should be added here -->
+<!-- Samling af SVG ikoner som bruges af sandkasse-applikationen. Er der behov for flere ikoner, bør de tilføjes her. -->
 <template>
   <div class="hide-base-svg">
     <svg xmlns="http://www.w3.org/2000/svg">

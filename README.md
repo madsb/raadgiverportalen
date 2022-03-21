@@ -1,18 +1,18 @@
-# Leverandør Applikation Sandkasse
+# Leverandør-applikation sandkasse
 
 ## Initial
-Install NPM dependencies
+Installér NPM afhængigheder
 ```
 npm install
 ```
-## Development
+## Udvikling
 
-Build and serve for development
+Byg og serve til udvikling
 ```
 npm run serve
 ```
 
-Start developing/testing your application in _src/components/Applikation.vue_
+Start udvikling/test af applikation i _src/components/Applikation.vue_
 
 ## Code clean
 

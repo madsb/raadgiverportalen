@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts">
-// INFO: Changes to this file will not be included in final build
+// INFO: Bemærk ændringer til denne fil, vil ikke blive inkluderet i den endelige applikation
 import Applikation from './components/Applikation.vue';
 import * as DKFDS from 'dkfds';
 
@@ -44,7 +44,7 @@ export default {
     DKFDS.init();
   },
   methods: {
-    // Dummy methods to test data collection events. Will be handled by Virksomhedsguiden when deployed
+    // Dummy metoder til at teste dataopsamling events. Disse events vil blive håndteret af Virksomhedsguiden.
     onPiwikPageView() {
       // eslint-disable-next-line no-console
       console.log('EVENT: page view');

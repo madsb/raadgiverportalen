@@ -1,5 +1,3 @@
-// TODO: AJP - will be moved into NPM module in ERF-6820
-
 interface Emitter {
   $emit: (event: string, ...args: any[]) => any;
 }
