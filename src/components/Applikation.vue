@@ -130,6 +130,17 @@
       stedet for.
     </div>
     <button class="button button-primary" @click="emitFritekstEvent">Fritekst event</button>
+    <h3>Token</h3>
+    Brugere kan være logget ind på Virksomhedsguiden. Hvis de er det, så kan leverandører anmode om deres token, så leverandørerne kan gemme data på
+    brugeren.
+    <h4>Logget ind</h4>
+    Brugeren er "{{ isLoggedIn }}" logget ind.
+    <h4>Anmod om token</h4>
+    Når man anmoder om en token, så åbnes en rumlerille, hvor brugeren skal godkende at applikationen kan få brugerens token, hvis brugeren ikke
+    tidligere har givet denne tilladelse.
+    <button class="button button-primary" @click="emitRequestToken">Anmod</button>
+    <h4>Token</h4>
+    Brugeren har følgende token: {{ token }}
   </div>
 </template>
 
@@ -158,10 +169,31 @@ export default {
     CustomMultiselect,
     StateComponent
   },
+  provide() {
+    // Gør 'reactiveKey' tilgængelig for underkomponenter (uanset dybde), som kan bruges til at sørge for Vuex getters er reaktive.
+    const reactiveKey = {};
+    Object.defineProperty(reactiveKey, 'value', {
+      enumerable: true,
+      get: () => this.reactiveKey
+    });
+    return {
+      reactiveKey
+    };
+  },
   props: {
     variant: {
       type: Object as () => Variant,
       default: null,
+      required: false
+    },
+    token: {
+      type: String,
+      default: '',
+      required: false
+    },
+    isLoggedIn: {
+      type: Boolean,
+      default: false,
       required: false
     }
   },
@@ -262,18 +294,10 @@ export default {
         maxStep: this.maxStep
       };
       DataEvent.emitFritekstEvent(this, 'eventType', JSON.stringify(data));
+    },
+    emitRequestToken() {
+      this.$emit('requestToken');
     }
-  },
-  provide() {
-    // Gør 'reactiveKey' tilgængelig for underkomponenter (uanset dybde), som kan bruges til at sørge for Vuex getters er reaktive.
-    const reactiveKey = {};
-    Object.defineProperty(reactiveKey, 'value', {
-      enumerable: true,
-      get: () => this.reactiveKey
-    });
-    return {
-      reactiveKey
-    };
   },
   // Tilføj Vuex store til applikationen
   store
