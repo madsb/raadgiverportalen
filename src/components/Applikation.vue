@@ -131,16 +131,20 @@
     </div>
     <button class="button button-primary" @click="emitFritekstEvent">Fritekst event</button>
     <h3>Token</h3>
-    Brugere kan være logget ind på Virksomhedsguiden. Hvis de er det, så kan leverandører anmode om deres token, så leverandørerne kan gemme data på
-    brugeren.
+    <div class="my-5">
+      Brugere kan være logget ind på Virksomhedsguiden. Hvis de er det, så kan leverandører anmode om deres token, så leverandørerne kan gemme data på
+      brugeren.
+    </div>
     <h4>Logget ind</h4>
-    Brugeren er "{{ isLoggedIn }}" logget ind.
+    <div class="my-5">Brugeren er "{{ isLoggedIn }}" logget ind.</div>
     <h4>Anmod om token</h4>
-    Når man anmoder om en token, så åbnes en rumlerille, hvor brugeren skal godkende at applikationen kan få brugerens token, hvis brugeren ikke
-    tidligere har givet denne tilladelse.
+    <div class="my-5">
+      Når man anmoder om en token, så åbnes en rumlerille, hvor brugeren skal godkende at applikationen kan få brugerens token, hvis brugeren ikke
+      tidligere har givet denne tilladelse.
+    </div>
     <button class="button button-primary" @click="emitRequestToken">Anmod</button>
     <h4>Token</h4>
-    Brugeren har følgende token: {{ token }}
+    <div class="my-5">Brugeren har følgende token: {{ token }}</div>
   </div>
 </template>
 
