@@ -132,11 +132,11 @@
     <button class="button button-primary" @click="emitFritekstEvent">Fritekst event</button>
     <h3>Token</h3>
     <div class="my-5">
-      Brugere kan være logget ind på Virksomhedsguiden. Hvis de er det, så kan leverandører anmode om deres token, så leverandørerne kan gemme data på
-      brugeren.
+      Brugere kan være logget ind på Virksomhedsguiden. Hvis de er det, så kan leverandører anmode om deres token, så leverandørerne kan gemme data om
+      brugeren i deres eget system med reference til brugerens entitets ID.
     </div>
     <h4>Logget ind</h4>
-    <div class="my-5">Brugeren er "{{ isLoggedIn }}" logget ind.</div>
+    <div class="my-5">Brugeren er "{{ isLoggedIn ? 'ikke ' : '' }}"logget ind.</div>
     <h4>Anmod om token</h4>
     <div class="my-5">
       Når man anmoder om en token, så åbnes en rumlerille, hvor brugeren skal godkende at applikationen kan få brugerens token, hvis brugeren ikke
@@ -144,7 +144,9 @@
     </div>
     <button class="button button-primary" @click="emitRequestToken">Anmod</button>
     <h4>Token</h4>
-    <div class="my-5">Brugeren har følgende token: {{ token }}</div>
+    <div class="my-5">
+      Brugeren har følgende token (hvis tom streng, så har applikationen endnu ikke anmodet om token og blevet givet tilladelse): {{ token }}
+    </div>
   </div>
 </template>
 
