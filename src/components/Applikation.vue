@@ -136,7 +136,7 @@
       brugeren i deres eget system med reference til brugerens entitets ID.
     </div>
     <h4>Logget ind</h4>
-    <div class="my-5">Brugeren er {{ isLoggedIn ? 'ikke ' : '' }}logget ind.</div>
+    <div class="my-5">Brugeren er {{ isLoggedIn ? '' : 'ikke ' }}logget ind.</div>
     <h4>Anmod om token</h4>
     <div class="my-5">
       Når man anmoder om en token, så åbnes en rumlerille, hvor brugeren skal godkende at applikationen kan få brugerens token, hvis brugeren ikke
