@@ -4,12 +4,15 @@
       <div class="flexgrow container pt-8 pb-8">
         <Applikation
           :variant="variant"
+          :is-logged-in="true"
+          token="Dette er en dummy token"
           @piwikPageView="onPiwikPageView"
           @piwikNaesteEvent="onPiwikNaesteEvent"
           @piwikForrigeEvent="onPiwikForrigeEvent"
           @piwikDownloadEvent="onPiwikDownloadEvent"
           @piwikCTAClickEvent="onPiwikCTAClickEvent"
           @piwikFritekstEvent="onPiwikFritekstEvent"
+          @requestToken="onRequestToken"
         />
       </div>
     </div>
@@ -68,6 +71,10 @@ export default {
     onPiwikFritekstEvent() {
       // eslint-disable-next-line no-console
       console.log('EVENT: fritekst ', arguments);
+    },
+    onRequestToken() {
+      // eslint-disable-next-line no-console
+      console.log('Request token er blevet kaldt');
     }
   }
 };

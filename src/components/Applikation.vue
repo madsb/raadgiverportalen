@@ -139,7 +139,7 @@
     <div class="my-5">Brugeren er {{ isLoggedIn ? '' : 'ikke ' }}logget ind.</div>
     <h4>Anmod om token</h4>
     <div class="my-5">
-      Når man anmoder om en token, så åbnes en rumlerille, hvor brugeren skal godkende at applikationen kan få brugerens token, hvis brugeren ikke
+      Når man anmoder om en token, så åbnes en modal, hvor brugeren skal godkende at applikationen kan få brugerens token, hvis brugeren ikke
       tidligere har givet denne tilladelse.
     </div>
     <button class="button button-primary" @click="emitRequestToken">Anmod</button>
