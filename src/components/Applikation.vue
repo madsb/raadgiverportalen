@@ -130,6 +130,23 @@
       stedet for.
     </div>
     <button class="button button-primary" @click="emitFritekstEvent">Fritekst event</button>
+    <h3>Token</h3>
+    <div class="my-5">
+      Brugere kan være logget ind på Virksomhedsguiden. Hvis de er det, så kan leverandører anmode om deres token, så leverandørerne kan gemme data om
+      brugeren i deres eget system med reference til brugerens entitets ID.
+    </div>
+    <h4>Logget ind</h4>
+    <div class="my-5">Brugeren er {{ isLoggedIn ? '' : 'ikke ' }}logget ind.</div>
+    <h4>Anmod om token</h4>
+    <div class="my-5">
+      Når man anmoder om en token, så åbnes en modal, hvor brugeren skal godkende at applikationen kan få brugerens token, hvis brugeren ikke
+      tidligere har givet denne tilladelse.
+    </div>
+    <button class="button button-primary" @click="emitRequestToken">Anmod</button>
+    <h4>Token</h4>
+    <div class="my-5">
+      Brugeren har følgende token (hvis tom streng, så har applikationen endnu ikke anmodet om token og blevet givet tilladelse): {{ token }}
+    </div>
   </div>
 </template>
 
@@ -158,10 +175,31 @@ export default {
     CustomMultiselect,
     StateComponent
   },
+  provide() {
+    // Gør 'reactiveKey' tilgængelig for underkomponenter (uanset dybde), som kan bruges til at sørge for Vuex getters er reaktive.
+    const reactiveKey = {};
+    Object.defineProperty(reactiveKey, 'value', {
+      enumerable: true,
+      get: () => this.reactiveKey
+    });
+    return {
+      reactiveKey
+    };
+  },
   props: {
     variant: {
       type: Object as () => Variant,
       default: null,
+      required: false
+    },
+    token: {
+      type: String,
+      default: '',
+      required: false
+    },
+    isLoggedIn: {
+      type: Boolean,
+      default: false,
       required: false
     }
   },
@@ -262,18 +300,10 @@ export default {
         maxStep: this.maxStep
       };
       DataEvent.emitFritekstEvent(this, 'eventType', JSON.stringify(data));
+    },
+    emitRequestToken() {
+      this.$emit('requestToken');
     }
-  },
-  provide() {
-    // Gør 'reactiveKey' tilgængelig for underkomponenter (uanset dybde), som kan bruges til at sørge for Vuex getters er reaktive.
-    const reactiveKey = {};
-    Object.defineProperty(reactiveKey, 'value', {
-      enumerable: true,
-      get: () => this.reactiveKey
-    });
-    return {
-      reactiveKey
-    };
   },
   // Tilføj Vuex store til applikationen
   store
