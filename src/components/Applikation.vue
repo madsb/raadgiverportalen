@@ -239,7 +239,7 @@ export default {
     window.addEventListener('hashchange', this.updateStepFromHash);
   },
   destroyed() {
-    window.addEventListener('hashchange', this.updateStepFromHash);
+    window.removeEventListener('hashchange', this.updateStepFromHash);
   },
   methods: {
     callAPI(fail = false) {
