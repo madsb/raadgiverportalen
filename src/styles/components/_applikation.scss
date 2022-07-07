@@ -1,18 +1,9 @@
-// Eksempel på brug af den tilgængelige media query mixin til håndtering af styles for forskellige breakpoints.
-.responsive-class {
-  color: white;
-  padding: 24px;
+.applikation-container {
+  line-height: 2.4rem;
+}
 
-  @include media-breakpoint-down(sm) {
-    background-color: green;
-  }
-
-  @include media-breakpoint-up(md) {
-    background-color: red;
-  }
-
-  @include media-breakpoint-up(lg) {
-    background-color: blue;
-  }
-
+hr {
+  margin-top: 32px;
+  margin-bottom: 32px;
+  border: 1px solid;
 }

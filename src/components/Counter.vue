@@ -2,7 +2,7 @@
 <template>
   <div>
     <div class="mt-5">
-      {{ count }}
+      <h2 class="h1">{{ count }}</h2>
     </div>
   </div>
 </template>

@@ -1,7 +1,7 @@
 <!-- Eksempel på komponent, som bruger vue-multiselect med scoped styling -->
 <template>
   <div>
-    <h3>Scoped styling:</h3>
+    <h2 class="mt-5">Scoped styling:</h2>
     <div>
       Det er vigtigt alt styling i leverandør-applikationen ikke påvirker Virksomhedsguiden eller andre leverandør-applikationer. Derfor skal alle
       &lt;style&gt; tags bruge <strong>scoped</strong> attributten. Der findes NPM moduler, der ikke fungerer korrekt med scoped som fx.
