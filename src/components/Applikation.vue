@@ -16,6 +16,8 @@
     <hr />
     <LoginComponent />
     <hr />
+    <API />
+    <hr />
     <ParameterVariant :variant="variant" />
     <hr />
     <Responsive />
