@@ -38,12 +38,11 @@ Nuværende NPM moduler og versioner, som kan bruges af leverandør-applikationer
 * "@sanity/block-content-to-html": "2.0.0",
 * "@sanity/client": "2.23.2",
 * "sanity-blocks-vue-component": "1.0.1"
-* "vue-apexcharts": "1.6.2",
+* "vue3-apexcharts": "1.4.1",
 * "apexcharts": "3.33.2",
-* "vue-simpleform": "1.0.5",
-* "vue-html2pdf": "1.8.0",
+* "@erst-vg/vue3-html2pdf": "1.1.3",
+* "@contentful/rich-text-html-renderer": "15.13.1",
+* "@contentful/rich-text-types": "15.13.2",
 * "humps": "2.0.1",
 * "ol": "6.13.0",
-* "tippy.js": "6.3.7",
-* "vue-multiselect": "2.1.6",
-* "vuex": "3.6.2"
+* "tippy.js": "6.3.7"

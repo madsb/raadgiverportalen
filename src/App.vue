@@ -3,6 +3,7 @@
     <div id="app" class="app-body" tabindex="-1">
       <div class="flexgrow container pt-8 pb-8">
         <Applikation
+          v-if="loaded"
           :variant="variant"
           :is-logged-in="isLoggedIn"
           :token="token"
@@ -22,8 +23,8 @@
 
 <script lang="ts">
 // INFO: Bemærk ændringer til denne fil, vil ikke blive inkluderet i den endelige applikation
-import Applikation from './components/Applikation.vue';
 import * as DKFDS from 'dkfds';
+import Applikation from './components/Applikation.vue';
 
 // Hash værdi som VG sætter når login flow initieres, og når leverandør-applikationen vises igen efter successfuldt login
 const HASH_LOGIN_STRING = 'login_for_app';
@@ -38,6 +39,7 @@ export default {
   },
   data() {
     return {
+      loaded: false,
       token: '',
       variant: {
         navn: 'blå',
@@ -69,6 +71,11 @@ export default {
   },
   mounted() {
     DKFDS.init();
+    /**
+     * Flag der sørger for initialisering af DKFDS sker inden de resterende Vue komponenter loades.
+     * Dette gøres for at undgå dobbelt initialisering af DKFDS komponenter fx. når Accordions loades
+     */
+    this.loaded = true;
   },
   created() {
     // Simulér bruger er kommet tilbage efter login, og har modtaget en token som prop

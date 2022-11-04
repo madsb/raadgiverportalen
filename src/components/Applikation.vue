@@ -4,10 +4,11 @@
     <h1>Leverandør-applikation Sandkasse Miljø</h1>
     <div class="my-5">
       Denne applikation kan bruges som skabelon til udvikling af leverandør-applikation, der kan integreres i
-      <a href="https://www.virksomhedsguiden.dk" target="_blank">Virksomhedsguiden</a> som et Vue komponent. Siden indeholder desuden teknisk
+      <a href="https://www.virksomhedsguiden.dk" target="_blank">Virksomhedsguiden</a> som Vue 3 komponenter. Siden indeholder desuden teknisk
       information om forskellige aspekter af en leverandør-applikation. Se <strong>README.md</strong> for instruktioner. Der henvises desuden til den
       tekniske vejledning og design-vejledningen, som er blevet udleveret, for yderligere information.
     </div>
+    <API />
     <SvgIcons />
     <hr />
     <LoginDemo :token="token" :bruger="bruger" :is-logged-in="isLoggedIn" @requestToken="$emit('requestToken')" />
@@ -16,7 +17,7 @@
     <hr />
     <LoginComponent />
     <hr />
-    <API />
+    <ExternalAPI />
     <hr />
     <ParameterVariant :variant="variant" />
     <hr />
@@ -33,27 +34,27 @@
     <DataCollector @download="emitDownloadEvent" @cTAClick="emitCTAClickEvent" @fritekst="emitFritekstEvent" />
   </div>
 </template>
-
 <script lang="ts">
-import SvgIcons from './SvgIcons.vue';
+import * as DataEvent from '@erst-vg/piwik-event-wrapper';
+import { createPinia } from 'pinia';
+import { defineComponent } from 'vue';
+import { Bruger } from '../models/bruger.model';
+import { Variant } from '../models/variant.model';
+import API from './API.vue';
 import CustomMultiselect from './CustomMultiselect.vue';
-import StateComponent from './StateComponent.vue';
+import DataCollector from './DataCollector.vue';
+import DKFDSComponent from './DKFDSComponent.vue';
+import ExternalAPI from './ExternalAPI.vue';
+import Icons from './Icons.vue';
 import LoginComponent from './LoginComponent.vue';
 import LoginDemo from './LoginDemo.vue';
 import Navigation from './Navigation.vue';
 import ParameterVariant from './ParameterVariant.vue';
 import Responsive from './Responsive.vue';
-import Icons from './Icons.vue';
-import API from './API.vue';
-import { Bruger } from '../models/bruger.model';
-import { Variant } from '../models/variant.model';
-import * as DKFDS from 'dkfds';
-import DKFDSComponent from './DKFDSComponent.vue';
-import DataCollector from './DataCollector.vue';
-import * as DataEvent from '@erst-vg/piwik-event-wrapper';
-import { store } from '../store/';
+import StateComponent from './StateComponent.vue';
+import SvgIcons from './SvgIcons.vue';
 
-export default {
+export default defineComponent({
   name: 'Applikation',
   components: {
     SvgIcons,
@@ -63,21 +64,17 @@ export default {
     LoginDemo,
     Navigation,
     ParameterVariant,
-    API,
     Responsive,
     Icons,
     DKFDSComponent,
-    DataCollector
+    DataCollector,
+    ExternalAPI,
+    API
   },
   provide() {
-    // Gør 'reactiveKey' tilgængelig for underkomponenter (uanset dybde), som kan bruges til at sørge for Vuex getters er reaktive.
-    const reactiveKey = {};
-    Object.defineProperty(reactiveKey, 'value', {
-      enumerable: true,
-      get: () => this.reactiveKey
-    });
+    const pinia = createPinia();
     return {
-      reactiveKey
+      pinia
     };
   },
   props: {
@@ -102,29 +99,18 @@ export default {
       required: false
     }
   },
-
+  emits: ['requestToken', 'piwikPageView', 'piwikNaesteEvent', 'piwikForrigeEvent', 'piwikDownloadEvent', 'piwikCTAClickEvent', 'piwikFritekstEvent'],
   data() {
     return {
       step: 1,
-      maxStep: 3,
-      reactiveKey: 1
+      maxStep: 3
     };
   },
-  mounted() {
-    new DKFDS.Accordion(document.getElementById('accordion-element'));
-  },
   created() {
-    /**
-     * Lyt på Vuex store ændringer, og opdater reactiveKey hver gang der committes en Vuex mutation. Man kan evt. bruge mutation type
-     * til at styre om og hvornår den skal opdateres eller lytte på noget mere specifikt.
-     */
-    this.$store.subscribe(() => {
-      this.reactiveKey++;
-    });
     window.location.hash = '1';
     window.addEventListener('hashchange', this.updateStepFromHash);
   },
-  destroyed() {
+  unmounted() {
     window.removeEventListener('hashchange', this.updateStepFromHash);
   },
   methods: {
@@ -173,10 +159,8 @@ export default {
     emitRequestToken() {
       this.$emit('requestToken');
     }
-  },
-  // Tilføj Vuex store til applikationen, venligst fjern hvis der ikke er behov for state management
-  store
-};
+  }
+});
 </script>
 <style lang="scss" scoped>
 @import '../styles/components/_applikation.scss';

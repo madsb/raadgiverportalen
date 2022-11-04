@@ -40,7 +40,13 @@
 </template>
 
 <script lang="ts">
-export default {
-  name: 'DKFDSComponent'
-};
+import * as DKFDS from 'dkfds';
+import { defineComponent } from 'vue';
+
+export default defineComponent({
+  name: 'DKFDSComponent',
+  mounted() {
+    new DKFDS.Accordion(document.getElementById('accordion-element')).init();
+  }
+});
 </script>

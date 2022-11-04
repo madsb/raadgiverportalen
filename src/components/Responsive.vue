@@ -8,9 +8,11 @@
 </template>
 
 <script lang="ts">
-export default {
+import { defineComponent } from 'vue';
+
+export default defineComponent({
   name: 'Responsive'
-};
+});
 </script>
 <style lang="scss" scoped>
 @import '../styles/components/_responsive.scss';

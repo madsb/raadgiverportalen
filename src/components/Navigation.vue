@@ -2,9 +2,9 @@
   <div>
     <h2 class="mt-5">Navigation</h2>
     <div>
-      Eksempel på simpel navigation inde i leverandør-applikationen, hvor visning af trin styres med Vue v-show direktiv. Det er applikationen selv,
-      som skal lytte på <strong>hashchange</strong> event, og efterfølgende implementere logikken når # ændres. Der bruges # i URL'en så tilbage
-      knappen i browseren navigerer korrekt.
+      Eksempel på simpel navigation inde i leverandør-applikationen, hvor visning af trin styres med Vue v-show direktiv. Det er
+      leverandør-applikationen selv, som skal lytte på <strong>hashchange</strong> event, og efterfølgende implementere logikken når # ændres. Der
+      bruges # i URL'en så tilbage knappen i browseren navigerer korrekt.
     </div>
     <h4>Du er på trin {{ step }}/{{ maxStep }}</h4>
     <form class="my-5">
@@ -33,7 +33,9 @@
 </template>
 
 <script lang="ts">
-export default {
+import { defineComponent } from 'vue';
+
+export default defineComponent({
   name: 'Navigation',
   props: {
     step: {
@@ -44,6 +46,7 @@ export default {
       type: Number,
       required: true
     }
-  }
-};
+  },
+  emits: ['decreaseStep', 'increaseStep']
+});
 </script>

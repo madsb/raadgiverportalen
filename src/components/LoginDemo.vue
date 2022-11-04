@@ -28,9 +28,10 @@
 </template>
 
 <script lang="ts">
+import { defineComponent } from 'vue';
 import { Bruger } from '../models/bruger.model';
 
-export default {
+export default defineComponent({
   name: 'LoginDemo',
   props: {
     token: {
@@ -49,5 +50,5 @@ export default {
       required: false
     }
   }
-};
+});
 </script>

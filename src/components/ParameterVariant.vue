@@ -15,7 +15,8 @@
 
 <script lang="ts">
 import { Variant } from 'src/models/variant.model';
-export default {
+import { defineComponent } from 'vue';
+export default defineComponent({
   name: 'ParameterVariant',
   props: {
     variant: {
@@ -33,5 +34,5 @@ export default {
     }
   },
   methods: {}
-};
+});
 </script>

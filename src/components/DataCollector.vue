@@ -22,7 +22,10 @@
 </template>
 
 <script lang="ts">
-export default {
-  name: 'DataCollector'
-};
+import { defineComponent } from 'vue';
+
+export default defineComponent({
+  name: 'DataCollector',
+  emits: ['fritekst', 'cTAClick', 'download']
+});
 </script>
