@@ -29,11 +29,20 @@
       <button class="button button-primary" @click="$emit('decreaseStep')">Forrige</button>
       <button class="button button-primary" @click="$emit('increaseStep')">Næste</button>
     </div>
+    <div class="mt-5">
+      Bemærk hvis hash værdien indholder flere ord eller specielle karakterer, så må den ikke URL encodes. I stedet for bør man bruge
+      <strong>src/utils/slug.util.ts</strong> eller lignende alternativ, som sørger for hash værdien er nemmere at læse. Se evt.
+      <strong>src/components/Navigation.vue</strong> for hvordan util funktionen bruges.
+      <div class="mt-5">
+        Eksempel hash: #<strong>{{ langHash }}</strong> bliver til #<strong>{{ slugify(langHash) }}</strong> vha. slugify util.
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import * as slugUtil from '../utils/slug.util';
 
 export default defineComponent({
   name: 'Navigation',
@@ -47,6 +56,16 @@ export default defineComponent({
       required: true
     }
   },
-  emits: ['decreaseStep', 'increaseStep']
+  emits: ['decreaseStep', 'increaseStep'],
+  data() {
+    return {
+      langHash: 'flere ord med specielle karakterer kødpålæg!'
+    };
+  },
+  methods: {
+    slugify() {
+      return slugUtil.slugify(this.langHash);
+    }
+  }
 });
 </script>

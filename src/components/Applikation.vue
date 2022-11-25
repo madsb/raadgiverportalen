@@ -53,6 +53,7 @@ import ParameterVariant from './ParameterVariant.vue';
 import Responsive from './Responsive.vue';
 import StateComponent from './StateComponent.vue';
 import SvgIcons from './SvgIcons.vue';
+import * as slugUtil from '../utils/slug.util';
 
 export default defineComponent({
   name: 'Applikation',
@@ -120,7 +121,7 @@ export default defineComponent({
         const previousHash = String(parseInt(this.removeHash(hash), 10) - 1);
         const previousUrl = pathname + '#' + previousHash;
         DataEvent.emitForrigeEvent(this, previousUrl);
-        window.location.hash = previousHash;
+        window.location.hash = slugUtil.slugify(previousHash);
       }
     },
     increaseStep() {
@@ -129,7 +130,7 @@ export default defineComponent({
         const previousHash = String(parseInt(this.removeHash(hash), 10) + 1);
         const nextUrl = pathname + '#' + previousHash;
         DataEvent.emitNaesteEvent(this, nextUrl);
-        window.location.hash = previousHash;
+        window.location.hash = slugUtil.slugify(previousHash);
       }
     },
     updateStepFromHash() {

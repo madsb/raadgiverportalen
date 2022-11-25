@@ -46,4 +46,3 @@ Nuværende NPM moduler og versioner, som kan bruges af leverandør-applikationer
 * "humps": "2.0.1",
 * "ol": "6.13.0",
 * "tippy.js": "6.3.7"
-* "slugify": "1.6.5"
