@@ -2,30 +2,40 @@
   <div>
     <h2 class="mt-5">Data-opsamling</h2>
     Virksomhedsguiden opsamler data vedr. brugerens adfærd. Det er leverandørens ansvar at der også opsamles relevant data i leverandør-applikationen.
-    Følgende er en liste af events, som leverandør-applikationen skal kalde i forskellige scenarier.
+    Følgende er en liste af events, som leverandør-applikationen skal kalde i forskellige scenarier. Service <strong>piwikService</strong> fra
+    <strong>@erst-vg/piwik-event-wrapper</strong> bruges til at kalde de tilgængelige data funktioner. Det er vigtigt piwikService først initialiseres
+    i entry point komponenten <strong>src/components/Applikation.vue</strong>.
+
     <h4>AppDownload</h4>
     <div class="my-5">Dette event bruges ved tryk på en download-knap eller tilsvarende.</div>
-    <button class="button button-primary" @click="$emit('download', 'doc.pfd', 'download data')">Download event</button>
+    <button class="button button-primary" @click="piwikService.emitDownloadEvent('download', 'doc.pfd', 'download data')">Download event</button>
     <h4>AppCTAClick</h4>
     <div class="my-5">
       Dette event bruges ved tryk på andre knapper end ovenstående - fx "åben accordion". Det anbefales som udgangspunkt, at man begrænser brugen af
       denne event-type.
     </div>
-    <button class="button button-primary" @click="$emit('cTAClick', 'eventType', 'CTA data')">Call to action event</button>
-    <h4>AppFritekst</h4>
+    <button class="button button-primary" @click="piwikService.emitCTAClickEvent('cTAClick', 'eventType', 'CTA data')">Call to action event</button>
+    <h4>AppStart</h4>
+    <div class="my-5">Denne event bruges til at angive man har startet et forløb i applikationen fx. startet en guide med trin.</div>
+    <button class="button button-primary" @click="piwikService.emitStartEvent()">Start event</button>
+    <h4>AppSlut</h4>
     <div class="my-5">
-      Dette event kan bruges, hvis intet andet event slår til. Det anbefales dog stærkt, at man overvejer om et af ovenstående events kan bruges i
-      stedet for.
+      Denne event bruges til at angive man har afsluttet et forløb i applikationen fx. afsluttet en guide med trin, og nu er kommet til resultatsiden.
     </div>
-    <button class="button button-primary" @click="$emit('fritekst')">Fritekst event</button>
+    <button class="button button-primary" @click="piwikService.emitSlutEvent()">Slut event</button>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { piwikService } from '@erst-vg/piwik-event-wrapper';
 
 export default defineComponent({
   name: 'DataCollector',
-  emits: ['fritekst', 'cTAClick', 'download']
+  data() {
+    return {
+      piwikService
+    };
+  }
 });
 </script>

@@ -9,16 +9,16 @@
     "transpile-test": "cross-env VG_VUE_TRANSPILE=true vue-cli-service build --target lib --formats umd-min --dest build/transpiled --name=f957085aeab09f8d18000e98508c85b95655da84 src/components/Applikation.vue"
   },
   "dependencies": {
-    "@erst-vg/piwik-event-wrapper": "1.0.1",
+    "@erst-vg/piwik-event-wrapper": "2.0.3",
     "axios": "0.21.4",
     "dkfds": "8.0.1",
     "mitt": "3.0.0",
     "pinia": "2.0.21",
+    "slugify": "1.6.5",
     "vue": "3.2.37",
     "vue-axios": "3.4.1",
     "vue-multiselect": "3.0.0-alpha.2",
-    "vuex": "4.0.2",
-    "slugify": "1.6.5"
+    "vuex": "4.0.2"
   },
   "devDependencies": {
     "@babel/core": "7.17.9",

@@ -4,4 +4,5 @@ export interface Bruger {
   virksomhedsnavn?: string;
   cvr?: string;
   entityId: string;
+  roller: string[];
 }
