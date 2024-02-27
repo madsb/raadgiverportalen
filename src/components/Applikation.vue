@@ -123,7 +123,7 @@ export default defineComponent({
     },
     isVirksomhedsguiden: {
       type: Boolean,
-      required: false
+      default: true
     }
   },
   emits: [DataEvents.PAGE_VIEW, DataEvents.DOWNLOAD_EVENT, DataEvents.CTA_CLICK_EVENT, DataEvents.START_EVENT, DataEvents.SLUT_EVENT],
