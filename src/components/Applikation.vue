@@ -8,6 +8,7 @@
       information om forskellige aspekter af en leverandør-applikation. Se <strong>README.md</strong> for instruktioner. Der henvises desuden til den
       tekniske vejledning og design-vejledningen, som er blevet udleveret, for yderligere information.
     </div>
+    <VgMode :is-virksomhedsguiden="isVirksomhedsguiden" />
     <API />
     <SvgIcons />
     <hr />
@@ -67,6 +68,7 @@ import Icons from './Icons.vue';
 import LoginComponent from './LoginComponent.vue';
 import LoginDemo from './LoginDemo.vue';
 import Navigation from './Navigation.vue';
+import VgMode from './VgMode.vue';
 import ParameterVariant from './ParameterVariant.vue';
 import Responsive from './Responsive.vue';
 import StateComponent from './StateComponent.vue';
@@ -81,6 +83,7 @@ export default defineComponent({
     CustomMultiselect,
     StateComponent,
     LoginComponent,
+    VgMode,
     LoginDemo,
     Navigation,
     ParameterVariant,
@@ -116,6 +119,10 @@ export default defineComponent({
     bruger: {
       type: Object as () => Bruger,
       default: null,
+      required: false
+    },
+    isVirksomhedsguiden: {
+      type: Boolean,
       required: false
     }
   },
