@@ -2,10 +2,10 @@
 <template>
   <div>
     <h2 class="mt-5">Eksternt API:</h2>
-    <div>
+    <p class="mb-5">
       Eksempel på brug af <a href="https://www.npmjs.com/package/axios">Axios</a> biblioteket til at kalde eksternt API og vise spinner ved asynkrone
       operationer
-    </div>
+    </p>
     <div>
       <div v-if="pending" class="spinner" aria-label="Henter indhold" />
       <div v-if="error" class="alert alert-error my-5" role="alert" aria-atomic="true">
@@ -21,41 +21,35 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import axios from 'axios';
-import { defineComponent } from 'vue';
-export default defineComponent({
-  name: 'ExternalAPI',
-  data() {
-    return {
-      response: {},
-      error: false,
-      pending: false
-    };
-  },
-  mounted() {
-    this.callAPI();
-  },
-  methods: {
-    callAPI(fail = false) {
-      this.pending = true;
-      this.error = false;
-      const id = fail ? 'NaN' : 1;
-      axios
-        .get(`https://jsonplaceholder.typicode.com/todos/${id}`)
-        .then(({ data }) => {
-          // Vil sørge for response data vises i DOM
-          this.response = data;
-        })
-        .catch(() => {
-          // vil sørge for fejlbeskeder vises i DOM
-          this.error = true;
-        })
-        .finally(() => {
-          // vil sørge for loading spinner skjules
-          this.pending = false;
-        });
-    }
-  }
+import { onMounted, ref } from 'vue';
+
+const response = ref({});
+const error = ref(false);
+const pending = ref(false);
+
+onMounted(() => {
+  callAPI();
 });
+
+function callAPI(fail = false) {
+  pending.value = true;
+  error.value = false;
+  const id = fail ? 'NaN' : 1;
+  axios
+    .get(`https://jsonplaceholder.typicode.com/todos/${id}`)
+    .then(({ data }) => {
+      // Vil sørge for response data vises i DOM
+      response.value = data;
+    })
+    .catch(() => {
+      // vil sørge for fejlbeskeder vises i DOM
+      error.value = true;
+    })
+    .finally(() => {
+      // vil sørge for loading spinner skjules
+      pending.value = false;
+    });
+}
 </script>

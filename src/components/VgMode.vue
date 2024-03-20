@@ -1,35 +1,26 @@
 <template>
   <div>
     <h2 class="mt-5">Mode:</h2>
-    <div class="my-5">
-      Entry point komponent <strong>src/components/Applikation.vue</strong> modtager en prop
-      <pre class="d-inline-block">is-virksomhedsguiden</pre>
-      som kan bruges til at finde ud af om applikationen kører selvstænding (false) eller om den er indlejret i Virksomhedsguiden (true)
-    </div>
     <div class="alert alert-info">
       <div class="alert-body">
-        <p class="alert-heading">Mode</p>
         <div class="alert-text">
-          <div v-if="isVirksomhedsguiden">Applikationen kører inden i Virksomhedsguiden</div>
-          <div v-else>Applikationen kører udenfor Virksomhedsguiden</div>
+          <p v-if="isVirksomhedsguiden">Applikationen kører inden i Virksomhedsguiden</p>
+          <p v-else>Applikationen kører udenfor Virksomhedsguiden</p>
         </div>
       </div>
     </div>
+    <p>
+      Entry point komponent <strong>src/components/Applikation.vue</strong> modtager en prop <em>is-virksomhedsguiden</em> som kan bruges til at finde
+      ud af om applikationen kører selvstændig (false) eller om den er indlejret i Virksomhedsguiden (true)
+    </p>
   </div>
 </template>
 
-<script lang="ts">
-import { TokenStatus } from '../enums/tokenStatus.enum';
-import { defineComponent } from 'vue';
-import { Bruger } from '../models/bruger.model';
-
-export default defineComponent({
-  name: 'VgMode',
-  props: {
-    isVirksomhedsguiden: {
-      type: Boolean,
-      required: true
-    }
+<script setup lang="ts">
+defineProps({
+  isVirksomhedsguiden: {
+    type: Boolean,
+    required: true
   }
 });
 </script>

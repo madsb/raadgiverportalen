@@ -7,7 +7,7 @@
         <div v-if="bruger" class="mt-5">
           <pre>{{ bruger }}</pre>
         </div>
-        <div v-else class="mt-5">Brugeren er ikke logget ind</div>
+        <p v-else class="mt-5">Brugeren er ikke logget ind</p>
       </span>
     </div>
     <div class="my-5">
@@ -46,34 +46,27 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { PropType, computed } from 'vue';
 import { TokenStatus } from '../enums/tokenStatus.enum';
-import { defineComponent } from 'vue';
 import { Bruger } from '../models/bruger.model';
 
-export default defineComponent({
-  name: 'LoginDemo',
-  props: {
-    token: {
-      type: String,
-      default: '',
-      required: false
-    },
-    isLoggedIn: {
-      type: Boolean,
-      default: false,
-      required: false
-    },
-    bruger: {
-      type: Object as () => Bruger,
-      default: null,
-      required: false
-    }
+const emit = defineEmits(['requestToken']);
+
+const props = defineProps({
+  token: {
+    type: String,
+    default: ''
   },
-  computed: {
-    isTokenRequestCancelled() {
-      return this.token === TokenStatus.CANCELLED;
-    }
+  isLoggedIn: {
+    type: Boolean,
+    default: false
+  },
+  bruger: {
+    type: Object as PropType<Bruger | null>,
+    default: null
   }
 });
+
+const isTokenRequestCancelled = computed(() => props.token === TokenStatus.CANCELLED);
 </script>

@@ -1,6 +1,6 @@
 {
   "name": "vg-applikation-test",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "scripts": {
     "serve": "vue-cli-service serve",
     "lint": "eslint \"**/*.{ts,js,vue}\" --fix --format=pretty",
@@ -9,11 +9,13 @@
     "transpile-test": "cross-env VG_VUE_TRANSPILE=true vue-cli-service build --target lib --formats umd-min --dest build/transpiled --name=f957085aeab09f8d18000e98508c85b95655da84 src/components/Applikation.vue"
   },
   "dependencies": {
+    "@erst-vg/bucket-json-client": "1.0.3",
     "@erst-vg/piwik-event-wrapper": "2.0.3",
-    "axios": "0.21.4",
     "dkfds": "8.0.1",
+    "graphql-tag": "2.12.6",
+    "miragejs": "0.1.48",
     "mitt": "3.0.0",
-    "pinia": "2.0.21",
+    "pinia": "2.0.22",
     "slugify": "1.6.5",
     "vue": "3.3.4",
     "vue-axios": "3.4.1",
@@ -21,7 +23,8 @@
     "vuex": "4.0.2"
   },
   "devDependencies": {
-    "@babel/core": "7.17.9",
+    "@babel/core": "7.23.9",
+    "@babel/traverse": "7.23.2",
     "@typescript-eslint/eslint-plugin": "5.38.1",
     "@typescript-eslint/eslint-plugin-tslint": "5.38.1",
     "@typescript-eslint/parser": "5.38.1",
@@ -38,6 +41,7 @@
     "eslint-plugin-prefer-arrow": "1.2.3",
     "eslint-plugin-prettier": "3.4.1",
     "eslint-plugin-vue": "7.20.0",
+    "postcss": "8.4.31",
     "prettier": "2.7.1",
     "sass": "1.55.0",
     "sass-loader": "10.3.1",
@@ -47,12 +51,12 @@
     "vue-cli-plugin-style-resources-loader": "0.1.5",
     "vue-eslint-parser": "7.11.0",
     "webpack": "5.76.0",
-    "webpack-bundle-analyzer": "4.6.1",
-    "@babel/traverse": "7.23.2",
-    "postcss": "8.4.31"
+    "webpack-bundle-analyzer": "4.6.1"
   },
   "overrides": {
     "node-ipc@>9.2.1 <10": "9.2.1",
-    "node-ipc@>10.1.0": "10.1.0"
+    "node-ipc@>10.1.0": "10.1.0",
+    "axios": "1.6.7",
+    "postcss": "8.4.31"
   }
 }

@@ -11,38 +11,23 @@
         </p>
       </div>
     </div>
-    <div>Følgende NPM moduler understøttes til state management i leverandør-applikationer.</div>
+    <p>Følgende NPM moduler understøttes til state management i leverandør-applikationer.</p>
     <PiniaCounter />
     <div class="mt-5">
       <button class="button button-primary" @click="incrementPinia">Opdater tæller i Pinia</button>
     </div>
     <VuexCounter />
-    <div class="mt-5">
-      <button class="button button-primary" @click="incrementVuex">Opdater tæller i Vuex</button>
-    </div>
   </div>
 </template>
 
-<script lang="ts">
-import { mapActions } from 'pinia';
-import { defineComponent } from 'vue';
-import { mapMutations } from 'vuex';
-import { store } from '../store';
+<script setup lang="ts">
+import { createPinia, setActivePinia } from 'pinia';
 import { useCounterStore } from '../stores/counter';
 import PiniaCounter from './PiniaCounter.vue';
 import VuexCounter from './VuexCounter.vue';
 
-export default defineComponent({
-  name: 'StateComponent',
-  components: { VuexCounter, PiniaCounter },
-  inject: ['pinia'],
-  created() {
-    this.$pinia = this.pinia;
-    this.$store = store;
-  },
-  methods: {
-    ...mapActions(useCounterStore, ['incrementPinia']),
-    ...mapMutations(['incrementVuex'])
-  }
-});
+setActivePinia(createPinia());
+const counterStore = useCounterStore();
+
+const incrementPinia = () => counterStore.incrementPinia();
 </script>

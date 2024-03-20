@@ -1,4 +1,4 @@
-<!-- Samling af SVG ikoner som bruges af sandkasse-applikationen. Er der behov for flere ikoner, bør de tilføjes her. -->
+<!-- Samling af SVG ikoner som bruges af leverandør-applikationen. Er der behov for flere ikoner, bør de tilføjes her. -->
 <template>
   <div class="hide-base-svg">
     <svg xmlns="http://www.w3.org/2000/svg">
@@ -23,11 +23,3 @@
     </svg>
   </div>
 </template>
-
-<script lang="ts">
-import { defineComponent } from 'vue';
-
-export default defineComponent({
-  name: 'SvgIcons'
-});
-</script>

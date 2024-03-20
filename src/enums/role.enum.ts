@@ -1,0 +1,4 @@
+export enum Role {
+  ERF_LEVERANDOER = 'ERF_LEVERANDOER',
+  ERF_ADMIN = 'ERF_ADMIN'
+}

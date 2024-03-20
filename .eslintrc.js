@@ -127,12 +127,8 @@ module.exports = {
     'no-invalid-this': 'off',
     'no-multiple-empty-lines': 'off',
     'no-new-wrappers': 'warn',
-    'no-shadow': [
-      'warn',
-      {
-        hoist: 'all'
-      }
-    ],
+    'no-shadow': 'off',
+    '@typescript-eslint/no-shadow': ['error'],
     'no-throw-literal': 'warn',
     'no-trailing-spaces': 'warn',
     'no-undef-init': 'warn',

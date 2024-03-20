@@ -2,30 +2,22 @@
 <template>
   <div>
     <h2 class="mt-5">Scoped styling:</h2>
-    <div>
+    <p>
       Det er vigtigt alt styling i leverandør-applikationen ikke påvirker Virksomhedsguiden eller andre leverandør-applikationer. Derfor skal alle
-      &lt;style&gt; tags bruge <strong>scoped</strong> attributten. Dette gælder naturligvis også stylesheets der importeres fra NPM moduler.
-    </div>
+      &lt;style&gt; tags bruge <strong>scoped</strong> attributten. Dette gælder naturligvis også stylesheets, der importeres fra NPM moduler.
+    </p>
     <div class="custom-multiselect">
       <multiselect v-model="value" :options="options" class="mt-5" placeholder="Vælg et land"></multiselect>
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup lang="ts">
+import { ref } from 'vue';
 import multiselect from 'vue-multiselect';
 
-export default defineComponent({
-  name: 'CustomMultiselect',
-  components: { multiselect },
-  data() {
-    return {
-      value: null,
-      options: ['Danmark', 'Sverige', 'Norge']
-    };
-  }
-});
+const value = ref(null);
+const options = ['Danmark', 'Sverige', 'Norge'];
 </script>
 
 <style lang="scss" scoped>

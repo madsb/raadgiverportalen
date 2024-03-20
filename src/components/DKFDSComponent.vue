@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2 class="mt-5">Det Fælles Designsystem (DKFDS)</h2>
-    <div>Applikationen skal bygges op vha. <a href="https://designsystem.dk/kode/implementering/" target="_blank">DKFDS</a></div>
+    <p>Applikationen skal bygges op vha. <a href="https://designsystem.dk/kode/implementering/" target="_blank">DKFDS</a></p>
     <h4>Layout:</h4>
     <div class="row">
       <div class="col-md-6 col-xs-12">Eksempel på grid: Venstre kolonne</div>
@@ -31,22 +31,19 @@
       <div class="card-header">
         <h2 class="header-title">Eksempel på card-komponenten</h2>
       </div>
-      <div class="card-text">
+      <p class="card-text">
         Du kan bruge cards til at gruppere funktionalitet, der adskiller sig fra sidens øvrige indhold. Cards kan placeres i et grid således at de
         står side om side.
-      </div>
+      </p>
     </div>
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import * as DKFDS from 'dkfds';
-import { defineComponent } from 'vue';
+import { onMounted } from 'vue';
 
-export default defineComponent({
-  name: 'DKFDSComponent',
-  mounted() {
-    new DKFDS.Accordion(document.getElementById('accordion-element')).init();
-  }
+onMounted(() => {
+  new DKFDS.Accordion(document.querySelector('.applikation-container #accordion-element')).init();
 });
 </script>
