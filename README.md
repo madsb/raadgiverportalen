@@ -50,3 +50,5 @@ Nuværende NPM moduler og versioner, som kan bruges af leverandør-applikationer
 * "tippy.js": "6.3.7"
 * "zod": "3.22.4"
 * "i18next": "23.5.1"
+* "@tsconfig/node18": "18.2.0"
+* "@vue/tsconfig": "0.4.0"
