@@ -1,5 +1,6 @@
-import { createServer } from 'miragejs';
+import { createServer, Response } from 'miragejs';
 import { DEFAULT_ENDPOINT } from '@erst-vg/bucket-json-client';
+import { HttpStatusCode } from 'axios';
 import { TEKSTNOEGLE_BUNDT_ID } from '@/main';
 
 /**
@@ -22,6 +23,11 @@ export default function () {
 
     createServer({
         routes() {
+            // https://miragejs.com/docs/getting-started/overview/#passthrough
+            // Tillad kald til eksterne domæner. Tilføj for hvert eksternt domæne
+            this.passthrough('https://jsonplaceholder.typicode.com/*');
+
+            // Mock Erhvervsstyrelsens API
             this.post(DEFAULT_ENDPOINT, (schema, request) => {
                 const { requestBody } = request;
                 if (requestBody.includes('bucketTekstnoegleGetJsonindhold')) {
@@ -49,6 +55,8 @@ export default function () {
                     };
                 }
             });
+
+
         }
     });
 

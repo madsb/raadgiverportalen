@@ -35,11 +35,11 @@
     </p>
     <div v-if="!isVirksomhedsguiden" class="alert alert-warning">
       <div class="alert-body">
-        <p class="alert-heading">Mock server</p>
+        <p class="alert-heading">Mock API server</p>
         <div class="alert-text">
           <p>
             Denne applikation har ikke adgang til Erhvervsstyrelsen Storage API når den afvikles selvstændigt udenfor Virksomhedsguiden. Der anvendes
-            derfor en mock server
+            derfor en API mock server
             <strong>src/server.js</strong> til at simulere Storage API, så leverandør-applikationen kan demonstrere brugen af
             <strong>bucketClientService</strong> uden fejl. Data gemmes naturligvis kun i memory når mock server anvendes.
           </p>
