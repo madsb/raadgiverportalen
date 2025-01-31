@@ -7,10 +7,6 @@ import App from './App.vue';
 // @ts-ignore
 import makeServer from './server';
 
-// ID på det tekstnøgle bundt, som bruges til at hente og gemme data igennem Storage API
-export const TEKSTNOEGLE_BUNDT_ID = 'tredjepartsapplikation.demo_applikation.alle_tekster';
-export const TEKSTNOEGLE_CVR_NUMMER = '12345678';
-
 // Mock server for standalone mode
 const useMockServer = true;
 if (useMockServer) {

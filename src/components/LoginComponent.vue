@@ -26,6 +26,8 @@
         bruge til at kalde Erhvervsstyrelsens beskyttede API'er. Den skal angives som bearer token i Authorization headeren i beskyttede API requests.
       </p>
       <pre>Authorization: Bearer &lt;token&gt;</pre>
+      <h4>hashBeforeLogin</h4>
+      <p>Leverandør-applikationens URL fragment før login flow. Denne prop kan bruges til at navigere til samme hash efter brugeren er logget ind.</p>
       <h3>Events</h3>
       <p>
         Uanset om brugeren er logget ind eller ej (isLoggedIn), så er token og bruger prop ikke udfyldt til at starte med. Den bliver først

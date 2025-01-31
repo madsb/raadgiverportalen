@@ -6,7 +6,8 @@
     "strict": true,
     "jsx": "preserve",
     "importHelpers": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
+    "noEmit": true,
     "experimentalDecorators": true,
     "noImplicitThis": false,
     "resolveJsonModule": true,
@@ -14,8 +15,8 @@
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "baseUrl": ".",
-    "skipLibCheck": true, // TODO: skal være false - venter på ny update fra toasted
-    "types": ["webpack-env"],
+    "skipLibCheck": true,
+    "types": ["vite/client"],
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
   },
   "include": [
@@ -29,6 +30,6 @@
     "./*.js",
     "./*.json",
     "./*.ts"
-  ],
+ ],
   "exclude": ["node_modules"]
 }

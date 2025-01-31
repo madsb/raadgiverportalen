@@ -13,8 +13,8 @@
 </template>
 
 <script setup lang="ts">
-import { Variant } from 'src/models/variant.model';
 import { computed } from 'vue';
+import { Variant } from '../models/variant.model';
 
 const props = defineProps({
   variant: {

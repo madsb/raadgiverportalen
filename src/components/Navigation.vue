@@ -57,5 +57,5 @@ const props = defineProps({
 const emits = defineEmits(['decreaseStep', 'increaseStep']);
 const langHash = 'flere ord med specielle karakterer kødpålæg!';
 
-const slugify = () => slugUtil.slugify(langHash);
+const slugify = (hash: string) => slugUtil.slugify(hash);
 </script>

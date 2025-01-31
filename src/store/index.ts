@@ -6,11 +6,11 @@ export const store = createStore({
     count: 3
   },
   mutations: {
-    incrementVuex(state) {
+    incrementVuex(state: { count: number }) {
       state.count++;
     }
   },
   getters: {
-    count: state => state.count
+    count: (state: { count: number }) => state.count
   }
 });

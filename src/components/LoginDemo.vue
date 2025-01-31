@@ -15,6 +15,10 @@
       <span class="ml-2">{{ isLoggedIn }}</span>
     </div>
     <div class="my-5">
+      <span><strong>Hash før login:</strong></span>
+      <span class="ml-2">{{ hashBeforeLogin }}</span>
+    </div>
+    <div class="my-5">
       <span><strong>token:</strong></span>
       <span v-if="token" class="ml-2 my-5">
         {{ token }}
@@ -65,6 +69,10 @@ const props = defineProps({
   bruger: {
     type: Object as PropType<Bruger | null>,
     default: null
+  },
+  hashBeforeLogin: {
+    type: String,
+    default: ''
   }
 });
 
