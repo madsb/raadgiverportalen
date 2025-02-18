@@ -1,14 +1,20 @@
 export interface CardElementModel {
-  titel: string;
-  header: string;
   billede?: BilledeModel;
-  manchet: string;
+  showBilleder?: boolean;
   label?: string;
+  overskrift: string;
   linkText?: string;
-  external?: boolean;
+  link: Link;
+  manchet: string;
 }
 
 export interface BilledeModel {
   url: string;
   label?: string;
+}
+
+export interface Link {
+  href: string;
+  title: string;
+  external: boolean;
 }

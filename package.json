@@ -14,7 +14,7 @@
   "dependencies": {
     "@erst-vg/bucket-json-client": "2.0.0",
     "@erst-vg/piwik-event-wrapper": "2.0.3",
-    "@erst-vg/vg-design-wrapper": "1.0.8",
+    "@erst-vg/vg-design-wrapper": "1.0.9",
     "graphql-tag": "2.12.6",
     "miragejs": "0.1.48",
     "mitt": "3.0.0",
