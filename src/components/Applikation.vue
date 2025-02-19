@@ -16,6 +16,8 @@
         <div>
           Ydelse ID: <code>{{ ydelsesId }}</code>
         </div>
+      </div>
+      <div class="col-12">
         <hr />
         <VgMode :is-virksomhedsguiden="isVirksomhedsguiden" />
         <hr />
