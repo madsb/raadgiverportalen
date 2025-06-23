@@ -1,4 +1,4 @@
-interface PDFRequest {
+export interface PDFRequest {
   html: string;
   headerTemplate: string;
   footerTemplate: string;
