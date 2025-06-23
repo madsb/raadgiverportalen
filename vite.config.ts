@@ -21,15 +21,10 @@ export default defineConfig(({ mode }) => {
       // Sørger for CSS og JS samles i en fil, da der ikke var native vite funktionalitet
       cssInjectedByJsPlugin()
     ],
-    resolve: {
-      alias: {
-        '@': resolve(__dirname, './src')
-      }
-    },
     css: {
       preprocessorOptions: {
         scss: {
-          additionalData: '@import "@/styles/global.scss";'
+          additionalData: '@import "./src/styles/global.scss";'
         }
       }
     },

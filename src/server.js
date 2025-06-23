@@ -1,6 +1,6 @@
 import { createServer, Response } from 'miragejs';
 import { DEFAULT_ENDPOINT } from '@erst-vg/bucket-json-client';
-import { TEKSTNOEGLE_BUNDT_ID } from '@/utils/tekstnoegle-util.ts';
+import { TEKSTNOEGLE_BUNDT_ID } from './utils/tekstnoegle-util.ts';
 
 /**
  * Dette er et mock storage JSON API som bruges når leverandør-applikationen kører udenfor VG. Den er derfor ikke relevant i forhold til udvikling af leverandør-applikationer
