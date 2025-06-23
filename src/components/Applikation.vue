@@ -19,43 +19,108 @@
       </div>
       <div class="col-12">
         <hr />
-        <VgMode :is-virksomhedsguiden="isVirksomhedsguiden" />
+        <ErrorBoundary error-title="Error Boundary Demo fejl" error-message="Der opstod en fejl i error boundary demo komponenten.">
+          <ErrorBoundaryDemo />
+        </ErrorBoundary>
         <hr />
-        <Design />
+        <ErrorBoundary error-title="Fejl i VG Mode komponent" error-message="Der opstod en fejl i VG Mode komponenten. Prøv at genindlæse siden.">
+          <VgMode :is-virksomhedsguiden="isVirksomhedsguiden" />
+        </ErrorBoundary>
         <hr />
-        <LoginDemo
-          :token="token"
-          :bruger="bruger"
-          :is-logged-in="isLoggedIn"
-          :hash-before-login="hashBeforeLogin"
-          @requestToken="$emit('requestToken')"
-        />
+        <ErrorBoundary error-title="Fejl i Design komponent" error-message="Der opstod en fejl i Design komponenten.">
+          <Design />
+        </ErrorBoundary>
         <hr />
-        <StorageAPI
-          :tekstnoegle-bundt-id="tekstnoegleBundtId"
-          :tekstnoegle-cvr-nummre="tekstnoegleCvrNumre"
-          :token="token"
-          :bruger="bruger"
-          @requestToken="$emit('requestToken')"
-        />
+        <ErrorBoundary
+          error-title="Login fejl"
+          error-message="Der opstod en fejl i login systemet. Prøv at genindlæse siden eller kontakt support."
+          @error="handleLoginError"
+        >
+          <LoginDemo
+            :token="token"
+            :bruger="bruger"
+            :is-logged-in="isLoggedIn"
+            :hash-before-login="hashBeforeLogin"
+            @requestToken="$emit('requestToken')"
+          />
+        </ErrorBoundary>
         <hr />
-        <Navigation :step="step" :max-step="maxStep" @decreaseStep="decreaseStep" @increaseStep="increaseStep" />
+        <AsyncErrorBoundary
+          error-title="Storage API fejl"
+          error-message="Der opstod en fejl ved kommunikation med storage systemet. Dine data er muligvis ikke blevet gemt."
+          :max-retries="2"
+          :retry-delay="2000"
+          show-reset
+          @error="handleStorageError"
+          @maxRetriesReached="handleStorageMaxRetries"
+        >
+          <StorageAPI
+            :tekstnoegle-bundt-id="tekstnoegleBundtId"
+            :tekstnoegle-cvr-nummre="tekstnoegleCvrNumre"
+            :token="token"
+            :bruger="bruger"
+            @requestToken="$emit('requestToken')"
+          />
+        </AsyncErrorBoundary>
         <hr />
-        <LoginComponent />
+        <ErrorBoundary
+          error-title="Navigation fejl"
+          error-message="Der opstod en fejl i navigationen. Prøv at genindlæse siden."
+          @error="handleNavigationError"
+        >
+          <Navigation :step="step" :max-step="maxStep" @decreaseStep="decreaseStep" @increaseStep="increaseStep" />
+        </ErrorBoundary>
         <hr />
-        <ExternalAPI />
+        <ErrorBoundary error-title="Login komponent fejl" error-message="Der opstod en fejl i login komponenten.">
+          <LoginComponent />
+        </ErrorBoundary>
         <hr />
-        <ParameterVariant :variant="variant" />
+        <AsyncErrorBoundary
+          error-title="Ekstern API fejl"
+          error-message="Der opstod en fejl ved kommunikation med eksterne systemer. Prøv igen senere."
+          :max-retries="3"
+          :retry-delay="1500"
+          @error="handleExternalAPIError"
+          @maxRetriesReached="handleExternalAPIMaxRetries"
+        >
+          <ExternalAPI />
+        </AsyncErrorBoundary>
         <hr />
-        <Responsive />
+        <ErrorBoundary error-title="Parameter variant fejl" error-message="Der opstod en fejl ved håndtering af parameter varianter.">
+          <ParameterVariant :variant="variant" />
+        </ErrorBoundary>
         <hr />
-        <ScopedStyling />
+        <ErrorBoundary error-title="Responsive komponent fejl" error-message="Der opstod en fejl i responsive komponenten.">
+          <Responsive />
+        </ErrorBoundary>
         <hr />
-        <StateComponent />
+        <ErrorBoundary error-title="Styling fejl" error-message="Der opstod en fejl i styling komponenten.">
+          <ScopedStyling />
+        </ErrorBoundary>
         <hr />
-        <DataCollector />
+        <ErrorBoundary error-title="State komponent fejl" error-message="Der opstod en fejl i state management komponenten.">
+          <StateComponent />
+        </ErrorBoundary>
         <hr />
-        <DownloadComponent :is-virksomhedsguiden="isVirksomhedsguiden" />
+        <ErrorBoundary
+          error-title="Data indsamling fejl"
+          error-message="Der opstod en fejl ved data indsamling. Dine data er muligvis ikke blevet gemt korrekt."
+          @error="handleDataCollectorError"
+        >
+          <DataCollector />
+        </ErrorBoundary>
+        <hr />
+        <AsyncErrorBoundary
+          error-title="Download fejl"
+          error-message="Der opstod en fejl ved download funktionaliteten. Prøv igen eller kontakt support."
+          :max-retries="2"
+          :retry-delay="1000"
+          @error="handleDownloadError"
+          @maxRetriesReached="handleDownloadMaxRetries"
+          show-reset
+        >
+          <DownloadComponent :is-virksomhedsguiden="isVirksomhedsguiden" />
+        </AsyncErrorBoundary>
       </div>
     </div>
   </VgDesignWrapper>
@@ -69,9 +134,12 @@ import { PropType, inject, onMounted, onUnmounted, provide, ref } from 'vue';
 import { Bruger } from '../models/bruger.model';
 import { Variant } from '../models/variant.model';
 import * as slugUtil from '../utils/slug.util';
+import AsyncErrorBoundary from './AsyncErrorBoundary.vue';
 import DataCollector from './DataCollector.vue';
 import Design from './Design.vue';
 import DownloadComponent from './DownloadComponent.vue';
+import ErrorBoundary from './ErrorBoundary.vue';
+import ErrorBoundaryDemo from './ErrorBoundaryDemo.vue';
 import ExternalAPI from './ExternalAPI.vue';
 import LoginComponent from './LoginComponent.vue';
 import LoginDemo from './LoginDemo.vue';
@@ -176,6 +244,10 @@ onMounted(() => {
   if (props.allowPassivToken) {
     emit('requestToken');
   }
+
+  // Set initial hash and add event listener in mounted lifecycle
+  window.location.hash = '1';
+  window.addEventListener('hashchange', updateStepFromHash);
 });
 
 onUnmounted(() => {
@@ -206,8 +278,53 @@ const updateStepFromHash = () => {
 
 const removeHash = (hash: string) => hash.replaceAll('#', '');
 
-window.location.hash = '1';
-window.addEventListener('hashchange', updateStepFromHash);
+// Error handlers for critical components
+const handleLoginError = (error: Error) => {
+  console.error('raadgiverportalen: Critical login error occurred', error);
+  // Could emit to parent or trigger additional error reporting here
+};
+
+const handleStorageError = (error: Error, retryCount: number) => {
+  console.error(`raadgiverportalen: Critical storage API error occurred (retry ${retryCount})`, error);
+  // Storage errors are critical as they affect data persistence
+};
+
+const handleStorageMaxRetries = (error: Error) => {
+  console.error('raadgiverportalen: Storage API max retries reached - critical system failure', error);
+  // Could trigger fallback storage mechanism or alert user to save work elsewhere
+};
+
+const handleNavigationError = (error: Error) => {
+  console.error('raadgiverportalen: Navigation error occurred', error);
+  // Reset navigation state if needed
+  step.value = 1;
+  window.location.hash = '1';
+};
+
+const handleExternalAPIError = (error: Error, retryCount: number) => {
+  console.error(`raadgiverportalen: External API error occurred (retry ${retryCount})`, error);
+  // External API errors should be logged for monitoring
+};
+
+const handleExternalAPIMaxRetries = (error: Error) => {
+  console.error('raadgiverportalen: External API max retries reached - service may be down', error);
+  // Could switch to offline mode or show service status message
+};
+
+const handleDataCollectorError = (error: Error) => {
+  console.error('raadgiverportalen: Data collector error occurred', error);
+  // Data collection errors are critical for compliance
+};
+
+const handleDownloadError = (error: Error, retryCount: number) => {
+  console.error(`raadgiverportalen: Download error occurred (retry ${retryCount})`, error);
+  // Download errors affect user experience significantly
+};
+
+const handleDownloadMaxRetries = (error: Error) => {
+  console.error('raadgiverportalen: Download max retries reached - file generation may have failed', error);
+  // Could offer alternative download methods or manual file request
+};
 </script>
 
 <style lang="scss" scoped>

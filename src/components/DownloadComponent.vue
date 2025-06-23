@@ -19,12 +19,6 @@
     </div>
     <div class="mt-5">
       <div v-if="pending" class="spinner" aria-label="Henter indhold" />
-      <div v-if="error" class="alert alert-error my-5" role="alert" aria-atomic="true">
-        <div class="alert-body">
-          <p class="alert-heading">Fejl</p>
-          <p class="alert-text">Kald til backend-service fejlede.</p>
-        </div>
-      </div>
       <button class="button button-primary" @click="downloadPdf()">Download PDF</button>
     </div>
   </div>
@@ -33,6 +27,7 @@
 <script setup lang="ts">
 import axios from 'axios';
 import { computed, ref } from 'vue';
+import type { PDFRequest } from '../models/pdfRequest.model';
 
 defineProps({
   isVirksomhedsguiden: {
@@ -41,7 +36,6 @@ defineProps({
   }
 });
 
-const error = ref(false);
 const pending = ref(false);
 
 const metaTitle = computed((): string => 'Demoapplikation download eksempel');
@@ -101,37 +95,35 @@ const footerHtml = computed(
 `
 );
 
-const downloadPdf = (): void => {
-  pending.value = true;
-  error.value = false;
-  const html = contentHtml.value;
-  const headerTemplate = '<div />';
-  const footerTemplate = footerHtml.value;
-  const pdfRequestPayload = {
-    html,
-    headerTemplate,
-    footerTemplate,
-    title: metaTitle.value,
-    language: 'da'
-  };
-  postPdfRequest(pdfRequestPayload)
-    .then(blob => {
-      // Omdanner blob-data til et link som klikkes på, så filen downloades automatisk
-      const blobUrl = URL.createObjectURL(blob);
-      const pdfLink = document.createElement('a');
-      pdfLink.download = 'demoapplikation.pdf';
-      pdfLink.href = blobUrl;
-      pdfLink.target = '_blank';
-      pdfLink.click();
-    })
-    .catch(() => {
-      // Viser fejlbesked, hvis kaldet til backenden gik galt
-      error.value = true;
-    })
-    .finally(() => {
-      // Spinner skjules
-      pending.value = false;
-    });
+const downloadPdf = async (): Promise<void> => {
+  try {
+    pending.value = true;
+    const html = contentHtml.value;
+    const headerTemplate = '<div />';
+    const footerTemplate = footerHtml.value;
+    const pdfRequestPayload = {
+      html,
+      headerTemplate,
+      footerTemplate,
+      title: metaTitle.value,
+      language: 'da'
+    };
+
+    const blob = await postPdfRequest(pdfRequestPayload);
+
+    // Omdanner blob-data til et link som klikkes på, så filen downloades automatisk
+    const blobUrl = URL.createObjectURL(blob);
+    const pdfLink = document.createElement('a');
+    pdfLink.download = 'demoapplikation.pdf';
+    pdfLink.href = blobUrl;
+    pdfLink.target = '_blank';
+    pdfLink.click();
+  } catch (err) {
+    // Throw synchronously to be caught by AsyncErrorBoundary
+    throw new Error('Kald til backend-service fejlede.');
+  } finally {
+    pending.value = false;
+  }
 };
 
 // Opsætter Axios request til PDF-servicen
