@@ -75,16 +75,9 @@
           <LoginComponent />
         </ErrorBoundary>
         <hr />
-        <AsyncErrorBoundary
-          error-title="Ekstern API fejl"
-          error-message="Der opstod en fejl ved kommunikation med eksterne systemer. Prøv igen senere."
-          :max-retries="3"
-          :retry-delay="1500"
-          @error="handleExternalAPIError"
-          @maxRetriesReached="handleExternalAPIMaxRetries"
-        >
+        <ErrorBoundary error-title="Ekstern API fejl" error-message="Der opstod en fejl i ekstern API komponenten.">
           <ExternalAPI />
-        </AsyncErrorBoundary>
+        </ErrorBoundary>
         <hr />
         <ErrorBoundary error-title="Parameter variant fejl" error-message="Der opstod en fejl ved håndtering af parameter varianter.">
           <ParameterVariant :variant="variant" />
@@ -110,17 +103,9 @@
           <DataCollector />
         </ErrorBoundary>
         <hr />
-        <AsyncErrorBoundary
-          error-title="Download fejl"
-          error-message="Der opstod en fejl ved download funktionaliteten. Prøv igen eller kontakt support."
-          :max-retries="2"
-          :retry-delay="1000"
-          @error="handleDownloadError"
-          @maxRetriesReached="handleDownloadMaxRetries"
-          show-reset
-        >
+        <ErrorBoundary error-title="Download fejl" error-message="Der opstod en fejl i download komponenten.">
           <DownloadComponent :is-virksomhedsguiden="isVirksomhedsguiden" />
-        </AsyncErrorBoundary>
+        </ErrorBoundary>
       </div>
     </div>
   </VgDesignWrapper>
@@ -301,29 +286,9 @@ const handleNavigationError = (error: Error) => {
   window.location.hash = '1';
 };
 
-const handleExternalAPIError = (error: Error, retryCount: number) => {
-  console.error(`raadgiverportalen: External API error occurred (retry ${retryCount})`, error);
-  // External API errors should be logged for monitoring
-};
-
-const handleExternalAPIMaxRetries = (error: Error) => {
-  console.error('raadgiverportalen: External API max retries reached - service may be down', error);
-  // Could switch to offline mode or show service status message
-};
-
 const handleDataCollectorError = (error: Error) => {
   console.error('raadgiverportalen: Data collector error occurred', error);
   // Data collection errors are critical for compliance
-};
-
-const handleDownloadError = (error: Error, retryCount: number) => {
-  console.error(`raadgiverportalen: Download error occurred (retry ${retryCount})`, error);
-  // Download errors affect user experience significantly
-};
-
-const handleDownloadMaxRetries = (error: Error) => {
-  console.error('raadgiverportalen: Download max retries reached - file generation may have failed', error);
-  // Could offer alternative download methods or manual file request
 };
 </script>
 
