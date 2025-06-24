@@ -106,6 +106,10 @@
         <ErrorBoundary error-title="Download fejl" error-message="Der opstod en fejl i download komponenten.">
           <DownloadComponent :is-virksomhedsguiden="isVirksomhedsguiden" />
         </ErrorBoundary>
+        <hr />
+        <ErrorBoundary error-title="Router demo fejl" error-message="Der opstod en fejl i router demo komponenten.">
+          <RouterDemo />
+        </ErrorBoundary>
       </div>
     </div>
   </VgDesignWrapper>
@@ -135,6 +139,7 @@ import ScopedStyling from './ScopedStyling.vue';
 import StateComponent from './StateComponent.vue';
 import StorageAPI from './StorageAPI.vue';
 import VgMode from './VgMode.vue';
+import RouterDemo from './RouterDemo.vue';
 
 const props = defineProps({
   variant: {
@@ -230,38 +235,47 @@ onMounted(() => {
     emit('requestToken');
   }
 
-  // Set initial hash and add event listener in mounted lifecycle
-  window.location.hash = '1';
-  window.addEventListener('hashchange', updateStepFromHash);
+  // Removed hash setup to avoid conflicts with router
+  // Router now handles all hash-based navigation
 });
 
 onUnmounted(() => {
-  window.removeEventListener('hashchange', updateStepFromHash);
+  // Removed hashchange listener - router handles this now
 });
 
+// Legacy hash navigation - commented out in favor of router
+// const decreaseStep = () => {
+//   if (window.location.hash !== '#1') {
+//     const { hash } = window.location;
+//     const previousHash = String(parseInt(removeHash(hash), 10) - 1);
+//     window.location.hash = slugUtil.slugify(previousHash);
+//   }
+// };
+
+// const increaseStep = () => {
+//   if (window.location.hash !== '#' + maxStep.value) {
+//     const { hash } = window.location;
+//     const previousHash = String(parseInt(removeHash(hash), 10) + 1);
+//     window.location.hash = slugUtil.slugify(previousHash);
+//   }
+// };
+
+// const updateStepFromHash = () => {
+//   const { hash } = window.location;
+//   step.value = hash ? parseInt(removeHash(hash), 10) : 1;
+//   piwikService.emitPageViewEvent();
+// };
+
+// const removeHash = (hash: string) => hash.replaceAll('#', '');
+
+// Stub functions to prevent errors in components that use them
 const decreaseStep = () => {
-  if (window.location.hash !== '#1') {
-    const { hash } = window.location;
-    const previousHash = String(parseInt(removeHash(hash), 10) - 1);
-    window.location.hash = slugUtil.slugify(previousHash);
-  }
+  console.warn('decreaseStep is deprecated - use router navigation instead');
 };
 
 const increaseStep = () => {
-  if (window.location.hash !== '#' + maxStep.value) {
-    const { hash } = window.location;
-    const previousHash = String(parseInt(removeHash(hash), 10) + 1);
-    window.location.hash = slugUtil.slugify(previousHash);
-  }
+  console.warn('increaseStep is deprecated - use router navigation instead');
 };
-
-const updateStepFromHash = () => {
-  const { hash } = window.location;
-  step.value = hash ? parseInt(removeHash(hash), 10) : 1;
-  piwikService.emitPageViewEvent();
-};
-
-const removeHash = (hash: string) => hash.replaceAll('#', '');
 
 // Error handlers for critical components
 const handleLoginError = (error: Error) => {

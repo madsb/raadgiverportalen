@@ -9,7 +9,8 @@
     "lint": "cross-env ESLINT_USE_FLAT_CONFIG=false eslint \"**/*.{ts,js,vue}\" --fix --format=pretty",
     "prettierfix": "prettier --write \"**/*.ts\" ",
     "prettiercheck": "prettier --check \"**/*.ts\" ",
-    "transpile-test": "cross-env TRANSPILE_SHA=f957085aeab09f8d18000e98508c85b95655da84 TRANSPILE_DEST=build/f957085aeab09f8d18000e98508c85b95655da84/transpiled TRANSPILE_ENTRY=src/components/Applikation.vue npx vite build"
+    "transpile-test": "cross-env TRANSPILE_SHA=f957085aeab09f8d18000e98508c85b95655da84 TRANSPILE_DEST=build/f957085aeab09f8d18000e98508c85b95655da84/transpiled TRANSPILE_ENTRY=src/components/Applikation.vue npx vite build",
+    "test": "vitest"
   },
   "dependencies": {
     "@erst-vg/bucket-json-client": "2.0.0",
@@ -37,6 +38,7 @@
     "eslint-formatter-pretty": "5.0.0",
     "eslint-import-resolver-typescript": "3.6.1",
     "eslint-plugin-import": "2.29.1",
+    "jsdom": "^26.1.0",
     "postcss": "8.4.31",
     "prettier": "2.7.1",
     "sass": "1.55.0",
