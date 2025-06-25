@@ -1,5 +1,5 @@
 // Simpel Pinia store med en tæller som state
-import { createPinia, defineStore } from 'pinia';
+import { createPinia, defineStore } from 'pinia'
 
 export const useCounterStore = defineStore('piniaCounter', {
   state: () => ({ count: 5 }),
@@ -8,10 +8,10 @@ export const useCounterStore = defineStore('piniaCounter', {
   },
   actions: {
     incrementPinia() {
-      this.count++;
+      this.count++
     }
   }
-});
+})
 
-const store = createPinia();
-export default store;
+const store = createPinia()
+export default store

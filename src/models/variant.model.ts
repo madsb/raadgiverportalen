@@ -1,8 +1,8 @@
 export interface Variant {
-  navn: string;
-  aktiv: boolean;
+  navn: string
+  aktiv: boolean
   parametre: {
-    parameternavn: string;
-    parametervaerdi: string;
-  }[];
+    parameternavn: string
+    parametervaerdi: string
+  }[]
 }

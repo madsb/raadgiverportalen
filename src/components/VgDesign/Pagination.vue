@@ -11,11 +11,11 @@
 </template>
 
 <script setup lang="ts">
-import { VgPagination } from '@erst-vg/vg-design-wrapper';
-import { LOG_PREFIX } from '../../utils/log-util';
+import { VgPagination } from '@erst-vg/vg-design-wrapper'
+import { LOG_PREFIX } from '../../utils/log-util'
 
 const onPage = (page: number): void => {
   // eslint-disable-next-line no-console
-  console.log(`${LOG_PREFIX}Gå til: ${page}`);
-};
+  console.log(`${LOG_PREFIX}Gå til: ${page}`)
+}
 </script>

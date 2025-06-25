@@ -13,8 +13,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import { Variant } from '../models/variant.model';
+import { computed } from 'vue'
+import { Variant } from '../../models/variant.model'
 
 const props = defineProps({
   variant: {
@@ -22,9 +22,9 @@ const props = defineProps({
     default: null,
     required: false
   }
-});
+})
 
-const variantColor = computed(() => props.variant?.parametre[0].parametervaerdi ?? '#C0C0C0');
+const variantColor = computed(() => props.variant?.parametre[0].parametervaerdi ?? '#C0C0C0')
 
-const variantName = computed(() => props.variant?.navn ?? 'default');
+const variantName = computed(() => props.variant?.navn ?? 'default')
 </script>

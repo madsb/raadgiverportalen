@@ -1,1 +1,1 @@
-declare module 'vue-multiselect';
+declare module 'vue-multiselect'

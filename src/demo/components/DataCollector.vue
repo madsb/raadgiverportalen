@@ -36,5 +36,5 @@
 </template>
 
 <script setup lang="ts">
-import { piwikService } from '@erst-vg/piwik-event-wrapper';
+import { piwikService } from '@erst-vg/piwik-event-wrapper'
 </script>

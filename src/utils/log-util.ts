@@ -1,1 +1,1 @@
-export const LOG_PREFIX = 'Demo applikation: ';
+export const LOG_PREFIX = 'Demo applikation: '

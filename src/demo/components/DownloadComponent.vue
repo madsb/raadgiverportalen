@@ -31,21 +31,21 @@
 </template>
 
 <script setup lang="ts">
-import axios from 'axios';
-import { computed, ref } from 'vue';
-import type { PDFRequest } from '../models/pdfRequest.model';
+import axios from 'axios'
+import { computed, ref } from 'vue'
+import type { PDFRequest } from '../../models/pdfRequest.model'
 
 defineProps({
   isVirksomhedsguiden: {
     type: Boolean,
     required: true
   }
-});
+})
 
-const error = ref(false);
-const pending = ref(false);
+const error = ref(false)
+const pending = ref(false)
 
-const metaTitle = computed((): string => 'Demoapplikation download eksempel');
+const metaTitle = computed((): string => 'Demoapplikation download eksempel')
 
 const contentHtml = computed(
   (): string => `
@@ -70,7 +70,7 @@ const contentHtml = computed(
     </body>
   </html>
 `
-);
+)
 
 // Fælles styles som bliver brugt i PDF'ens indhold kan angives her. Slår ikke igennem i header og footer.
 const styles = computed(
@@ -90,7 +90,7 @@ const styles = computed(
     break-after: page;
   }
 `
-);
+)
 
 const footerHtml = computed(
   (): string => `
@@ -100,44 +100,44 @@ const footerHtml = computed(
     </span>
   </div>
 `
-);
+)
 
 const downloadPdf = (): void => {
-  pending.value = true;
-  error.value = false;
-  const html = contentHtml.value;
-  const headerTemplate = '<div />';
-  const footerTemplate = footerHtml.value;
+  pending.value = true
+  error.value = false
+  const html = contentHtml.value
+  const headerTemplate = '<div />'
+  const footerTemplate = footerHtml.value
   const pdfRequestPayload = {
     html,
     headerTemplate,
     footerTemplate,
     title: metaTitle.value,
     language: 'da'
-  };
+  }
   postPdfRequest(pdfRequestPayload)
     .then(blob => {
       // Omdanner blob-data til et link som klikkes på, så filen downloades automatisk
-      const blobUrl = URL.createObjectURL(blob);
-      const pdfLink = document.createElement('a');
-      pdfLink.download = 'demoapplikation.pdf';
-      pdfLink.href = blobUrl;
-      pdfLink.target = '_blank';
-      pdfLink.click();
+      const blobUrl = URL.createObjectURL(blob)
+      const pdfLink = document.createElement('a')
+      pdfLink.download = 'demoapplikation.pdf'
+      pdfLink.href = blobUrl
+      pdfLink.target = '_blank'
+      pdfLink.click()
     })
     .catch(() => {
       // Handle error locally - preserve component state
-      error.value = true;
+      error.value = true
     })
     .finally(() => {
       // Spinner skjules
-      pending.value = false;
-    });
-};
+      pending.value = false
+    })
+}
 
 // Opsætter Axios request til PDF-servicen
-const postPdfRequest = async (request: PDFRequest): Promise<Blob> => {
-  return (
+const postPdfRequest = async (request: PDFRequest): Promise<Blob> =>
+  (
     await axios.post<Blob>('/api/bucket/pdf/generer/', request, {
       headers: {
         'X-Requested-With': 'XMLHttpRequest',
@@ -146,6 +146,5 @@ const postPdfRequest = async (request: PDFRequest): Promise<Blob> => {
       },
       responseType: 'blob'
     })
-  ).data;
-};
+  ).data
 </script>

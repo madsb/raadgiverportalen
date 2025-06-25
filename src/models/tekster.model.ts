@@ -1,7 +1,7 @@
 export interface TekstData {
-  tekster: Tekster;
+  tekster: Tekster
 }
 
 export interface Tekster {
-  [key: string]: Tekster | Tekster[] | string | string[];
+  [key: string]: Tekster | Tekster[] | string | string[]
 }

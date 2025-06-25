@@ -1,5 +1,5 @@
 interface Emitter {
-  $emit: (event: string, ...args: any[]) => any;
+  $emit: (event: string, ...args: any[]) => any
 }
 
 /**
@@ -7,7 +7,7 @@ interface Emitter {
  * @param emitter this for access to $emit
  */
 export function emitPageViewEvent(emitter: Emitter): void {
-  emitter.$emit('piwikPageView');
+  emitter.$emit('piwikPageView')
 }
 
 /**
@@ -17,7 +17,7 @@ export function emitPageViewEvent(emitter: Emitter): void {
  * @param data optional extra data
  */
 export function emitNaesteEvent(emitter: Emitter, destUrl?: string, data?: string): void {
-  emitter.$emit('piwikNaesteEvent', destUrl, data);
+  emitter.$emit('piwikNaesteEvent', destUrl, data)
 }
 
 /**
@@ -27,7 +27,7 @@ export function emitNaesteEvent(emitter: Emitter, destUrl?: string, data?: strin
  * @param data optional extra data
  */
 export function emitForrigeEvent(emitter: Emitter, destUrl?: string, data?: string): void {
-  emitter.$emit('piwikForrigeEvent', destUrl, data);
+  emitter.$emit('piwikForrigeEvent', destUrl, data)
 }
 
 /**
@@ -37,7 +37,7 @@ export function emitForrigeEvent(emitter: Emitter, destUrl?: string, data?: stri
  * @param data optional extra data
  */
 export function emitDownloadEvent(emitter: Emitter, fileIdentifier: string, data?: string): void {
-  emitter.$emit('piwikDownloadEvent', fileIdentifier, data);
+  emitter.$emit('piwikDownloadEvent', fileIdentifier, data)
 }
 
 /**
@@ -47,7 +47,7 @@ export function emitDownloadEvent(emitter: Emitter, fileIdentifier: string, data
  * @param data optional data
  */
 export function emitCTAClickEvent(emitter: Emitter, eventType: string, data?: string): void {
-  emitter.$emit('piwikCTAClickEvent', eventType, data);
+  emitter.$emit('piwikCTAClickEvent', eventType, data)
 }
 
 /**
@@ -57,5 +57,5 @@ export function emitCTAClickEvent(emitter: Emitter, eventType: string, data?: st
  * @param data optional data - can be json
  */
 export function emitFritekstEvent(emitter: Emitter, eventType: string, data?: string): void {
-  emitter.$emit('piwikFritekstEvent', eventType, data);
+  emitter.$emit('piwikFritekstEvent', eventType, data)
 }

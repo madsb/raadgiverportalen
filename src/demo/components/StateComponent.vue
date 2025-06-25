@@ -21,13 +21,13 @@
 </template>
 
 <script setup lang="ts">
-import { createPinia, setActivePinia } from 'pinia';
-import { useCounterStore } from '../stores/counter';
-import PiniaCounter from './PiniaCounter.vue';
-import VuexCounter from './VuexCounter.vue';
+import { createPinia, setActivePinia } from 'pinia'
+import { useCounterStore } from '../../stores/counter'
+import PiniaCounter from '../../components/PiniaCounter.vue'
+import VuexCounter from '../../components/VuexCounter.vue'
 
-setActivePinia(createPinia());
-const counterStore = useCounterStore();
+setActivePinia(createPinia())
+const counterStore = useCounterStore()
 
-const incrementPinia = () => counterStore.incrementPinia();
+const incrementPinia = () => counterStore.incrementPinia()
 </script>

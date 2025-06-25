@@ -28,5 +28,5 @@
 </template>
 
 <script setup lang="ts">
-import { VgButton } from '@erst-vg/vg-design-wrapper';
+import { VgButton } from '@erst-vg/vg-design-wrapper'
 </script>

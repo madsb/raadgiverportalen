@@ -1,30 +1,22 @@
 <template>
-  <div 
-    class="loading-container" 
-    :class="{ 'loading-overlay': overlay }"
-  >
-    <div 
-      class="spinner" 
-      :aria-label="ariaLabel"
-      role="status"
-      aria-live="polite"
-    />
+  <div class="loading-container" :class="{ 'loading-overlay': overlay }">
+    <div class="spinner" :aria-label="ariaLabel" role="status" aria-live="polite" />
     <p v-if="message" class="loading-message">{{ message }}</p>
   </div>
 </template>
 
 <script setup lang="ts">
 interface Props {
-  message?: string;
-  ariaLabel?: string;
-  overlay?: boolean;
+  message?: string
+  ariaLabel?: string
+  overlay?: boolean
 }
 
 withDefaults(defineProps<Props>(), {
   message: '',
   ariaLabel: 'Henter indhold',
   overlay: false
-});
+})
 </script>
 
 <style lang="scss" scoped>
@@ -34,7 +26,7 @@ withDefaults(defineProps<Props>(), {
   align-items: center;
   justify-content: center;
   padding: 1rem;
-  
+
   &.loading-overlay {
     position: absolute;
     top: 0;
@@ -57,4 +49,4 @@ withDefaults(defineProps<Props>(), {
   // VG-compliant spinner styles will be inherited from global DKFDS
   margin: 0 auto;
 }
-</style> 
+</style>

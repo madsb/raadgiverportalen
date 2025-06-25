@@ -5,8 +5,8 @@
     <nav>
       <RouterLink to="/kunder">Kunder</RouterLink>
     </nav>
-    
-    <div style="margin-top: 100vh;">
+
+    <div style="margin-top: 100vh">
       <h2 id="section-bottom">Bund sektion</h2>
       <p>Dette er en sektion i bunden af siden for at teste scroll behavior.</p>
       <RouterLink to="/">Tilbage til top</RouterLink>

@@ -1,5 +1,5 @@
 // Simpel Vuex store med en tæller som state
-import { createStore } from 'vuex';
+import { createStore } from 'vuex'
 
 export const store = createStore({
   state: {
@@ -7,10 +7,10 @@ export const store = createStore({
   },
   mutations: {
     incrementVuex(state: { count: number }) {
-      state.count++;
+      state.count++
     }
   },
   getters: {
     count: (state: { count: number }) => state.count
   }
-});
+})

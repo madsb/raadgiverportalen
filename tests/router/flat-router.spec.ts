@@ -16,17 +16,17 @@ describe('Flat Router Structure', () => {
     router.params = {}
     router.chain = []
     router.component = null
-    
+
     // Reset hash
     mockLocation.hash = ''
-    
+
     // Mock window.location
     Object.defineProperty(window, 'location', {
       value: mockLocation,
       writable: true,
       configurable: true
     })
-    
+
     // Initialize router
     initRouter()
   })
@@ -43,7 +43,7 @@ describe('Flat Router Structure', () => {
     for (const { hash, expectedParams } of testRoutes) {
       mockLocation.hash = hash
       await resolve()
-      
+
       expect(router.chain).toHaveLength(1) // Flat structure = single component
       expect(router.params).toEqual(expectedParams)
       expect(router.path).toBe(hash.slice(1) || '/')
@@ -53,15 +53,15 @@ describe('Flat Router Structure', () => {
   it('should not create recursive component chains', async () => {
     mockLocation.hash = '#/kunder/42'
     await resolve()
-    
+
     // Should have exactly one component in the chain
     expect(router.chain).toHaveLength(1)
     expect(router.chain[0].record.path).toBe('/kunder/:id')
-    
+
     // Component should be marked as raw (non-reactive)
     const component = router.chain[0].record.component
     expect(component).toBeTruthy()
     // In Vue 3, markRaw adds a __v_skip property
-    expect((component as any).__v_skip).toBe(true)
+    expect(component.__v_skip).toBe(true)
   })
 })

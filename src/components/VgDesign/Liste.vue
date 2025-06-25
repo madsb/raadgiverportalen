@@ -15,29 +15,29 @@
 </template>
 
 <script setup lang="ts">
-import { VgListe, VgListeCard } from '@erst-vg/vg-design-wrapper';
-import { ref } from 'vue';
-import { LOG_PREFIX } from '../../utils/log-util';
+import { VgListe, VgListeCard } from '@erst-vg/vg-design-wrapper'
+import { ref } from 'vue'
+import { LOG_PREFIX } from '../../utils/log-util'
 
-const total = 3;
-const pagination = 2;
+const total = 3
+const pagination = 2
 
 const cards = ref(
   [...Array(pagination).keys()].map(index => ({
     titel: `card ${index + 1}`,
     manchet: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
   }))
-);
+)
 
 const onListeCard = (index: number): void => {
   // eslint-disable-next-line no-console
-  console.log(`${LOG_PREFIX}Liste card klik for position ${index}`);
-};
+  console.log(`${LOG_PREFIX}Liste card klik for position ${index}`)
+}
 
 const onLoadSlice = (): void => {
-  const offset = cards.value.length;
-  const remaining = total - offset;
-  const sliceSize = remaining < pagination ? remaining : pagination;
+  const offset = cards.value.length
+  const remaining = total - offset
+  const sliceSize = remaining < pagination ? remaining : pagination
   // Simulér async operation som tager tid
   setTimeout(() => {
     cards.value = cards.value.concat(
@@ -45,7 +45,7 @@ const onLoadSlice = (): void => {
         titel: `card ${index + offset + 1}`,
         manchet: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
       }))
-    );
-  }, 200);
-};
+    )
+  }, 200)
+}
 </script>

@@ -51,11 +51,11 @@
 </template>
 
 <script setup lang="ts">
-import { PropType, computed } from 'vue';
-import { TokenStatus } from '../enums/tokenStatus.enum';
-import { Bruger } from '../models/bruger.model';
+import { PropType, computed } from 'vue'
+import { TokenStatus } from '../../enums/tokenStatus.enum'
+import { Bruger } from '../../models/bruger.model'
 
-const emit = defineEmits(['requestToken']);
+const emit = defineEmits(['requestToken'])
 
 const props = defineProps({
   token: {
@@ -74,7 +74,7 @@ const props = defineProps({
     type: String,
     default: ''
   }
-});
+})
 
-const isTokenRequestCancelled = computed(() => props.token === TokenStatus.CANCELLED);
+const isTokenRequestCancelled = computed(() => props.token === TokenStatus.CANCELLED)
 </script>

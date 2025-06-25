@@ -10,5 +10,5 @@
 </template>
 
 <style lang="scss" scoped>
-@import '../styles/components/_responsive.scss';
+@import '../../styles/components/_responsive.scss';
 </style>

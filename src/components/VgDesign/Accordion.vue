@@ -27,10 +27,10 @@
 </template>
 
 <script setup lang="ts">
-import { VgAccordion } from '@erst-vg/vg-design-wrapper';
-import { computed } from 'vue';
-import { AccordionElementModel } from '../../models/accordion.model';
-import { LOG_PREFIX } from '../../utils/log-util';
+import { VgAccordion } from '@erst-vg/vg-design-wrapper'
+import { computed } from 'vue'
+import { AccordionElementModel } from '../../models/accordion.model'
+import { LOG_PREFIX } from '../../utils/log-util'
 
 const elementer = computed((): AccordionElementModel[] => [
   {
@@ -45,10 +45,10 @@ const elementer = computed((): AccordionElementModel[] => [
     indhold:
       'Når du ejer et selskab, skal du udfylde et oplysningsskema (tidligere selvangivelse) for selskaber for at kunne betale din skat korrekt. Men før du kan oplyse, skal du have lavet selskabets årsregnskab. Tallene fra regnskabet skal du bruge for at kunne udfylde oplysningsskemaet. I skemaet skal du bl.a. give oplysninger om dit selskabs resultat for året (overskud eller underskud), renteindtægter, renteudgifter og regnskab.   '
   }
-]);
+])
 
 const onToggle = (status: boolean, accordionId: string, index: number): void => {
   // eslint-disable-next-line no-console
-  console.log(`${LOG_PREFIX}Toggle accordion for ID: ${accordionId} for position ${index} med status ${status}`);
-};
+  console.log(`${LOG_PREFIX}Toggle accordion for ID: ${accordionId} for position ${index} med status ${status}`)
+}
 </script>

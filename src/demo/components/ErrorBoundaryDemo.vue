@@ -49,7 +49,7 @@
           show-reset
           reset-strategy="soft"
           @error="handleAsyncDemoError"
-          @maxRetriesReached="handleMaxRetriesDemo"
+          @max-retries-reached="handleMaxRetriesDemo"
           @retry="handleAsyncRetry"
           @reset="handleAsyncReset"
         >
@@ -62,10 +62,10 @@
                 <p class="alert-text">Async operation successful: {{ asyncData }}</p>
               </div>
             </div>
-            <button class="button button-secondary me-2" @click="triggerAsyncError" :disabled="asyncLoading">
+            <button class="button button-secondary me-2" :disabled="asyncLoading" @click="triggerAsyncError">
               {{ asyncLoading ? 'Loading...' : 'Trigger Async Fejl' }}
             </button>
-            <button class="button button-secondary" @click="triggerSuccessfulAsync" :disabled="asyncLoading">
+            <button class="button button-secondary" :disabled="asyncLoading" @click="triggerSuccessfulAsync">
               {{ asyncLoading ? 'Loading...' : 'Successful Async' }}
             </button>
           </div>
@@ -88,7 +88,7 @@
                     <code class="d-block mt-1 p-2 bg-light">{{ error.message }}</code>
                   </div>
                   <div class="d-flex gap-2 mt-3">
-                    <button v-if="showReset" @click="reset" class="button button-primary" :disabled="retrying">
+                    <button v-if="showReset" class="button button-primary" :disabled="retrying" @click="reset">
                       {{ retrying ? '🔧 Nulstiller...' : '🔧 Nulstil Alt' }}
                     </button>
                   </div>
@@ -116,7 +116,7 @@
           :backoff-multiplier="2"
           show-reset
           @error="handleAdvancedAsyncError"
-          @maxRetriesReached="handleAdvancedMaxRetries"
+          @max-retries-reached="handleAdvancedMaxRetries"
         >
           <template #error="{ error, retry, reset, retrying, retryCount, maxRetries, maxRetriesReached }">
             <div class="advanced-error-display">
@@ -133,10 +133,10 @@
                   </div>
                   <p class="small">Forsøg: {{ retryCount }} / {{ maxRetries }}</p>
                   <div class="d-flex gap-2 mt-3">
-                    <button v-if="!maxRetriesReached" @click="retry" class="button button-secondary" :disabled="retrying">
+                    <button v-if="!maxRetriesReached" class="button button-secondary" :disabled="retrying" @click="retry">
                       {{ retrying ? '⏳ Prøver igen...' : '🔄 Prøv Igen' }}
                     </button>
-                    <button @click="reset" class="button button-tertiary">🔧 Nulstil</button>
+                    <button class="button button-tertiary" @click="reset">🔧 Nulstil</button>
                   </div>
                 </div>
               </div>
@@ -152,7 +152,7 @@
                 <p class="alert-text">Success: {{ advancedAsyncData }}</p>
               </div>
             </div>
-            <button class="button button-secondary" @click="triggerAdvancedAsyncError" :disabled="advancedAsyncLoading">
+            <button class="button button-secondary" :disabled="advancedAsyncLoading" @click="triggerAdvancedAsyncError">
               {{ advancedAsyncLoading ? 'Loading...' : 'Trigger Advanced Async Error' }}
             </button>
           </div>
@@ -213,42 +213,42 @@
             <span v-if="error.retryCount !== undefined" class="badge badge-info ms-2">Retry: {{ error.retryCount }}</span>
           </div>
         </div>
-        <button class="button button-tertiary mt-2" @click="clearErrorLog" :disabled="errorLog.length === 0">Ryd Log</button>
+        <button class="button button-tertiary mt-2" :disabled="errorLog.length === 0" @click="clearErrorLog">Ryd Log</button>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import AsyncErrorBoundary from './AsyncErrorBoundary.vue';
-import ErrorBoundary from './ErrorBoundary.vue';
+import { ref } from 'vue'
+import AsyncErrorBoundary from '../../components/AsyncErrorBoundary.vue'
+import ErrorBoundary from '../../components/ErrorBoundary.vue'
 
 // Demo state
-const showBrokenComponent = ref(false);
-const showCustomBrokenComponent = ref(false);
-const showInnerBrokenComponent = ref(false);
-const showOuterBrokenComponent = ref(false);
-const asyncLoading = ref(false);
-const asyncData = ref<string | null>(null);
-const advancedAsyncLoading = ref(false);
-const advancedAsyncData = ref<string | null>(null);
+const showBrokenComponent = ref(false)
+const showCustomBrokenComponent = ref(false)
+const showInnerBrokenComponent = ref(false)
+const showOuterBrokenComponent = ref(false)
+const asyncLoading = ref(false)
+const asyncData = ref<string | null>(null)
+const advancedAsyncLoading = ref(false)
+const advancedAsyncData = ref<string | null>(null)
 
 // Broken data objects to trigger errors
-const brokenData = ref<any>(null);
-const customBrokenData = ref<any>(null);
-const innerBrokenData = ref<any>(null);
-const outerBrokenData = ref<any>(null);
+const brokenData = ref<any>(null)
+const customBrokenData = ref<any>(null)
+const innerBrokenData = ref<any>(null)
+const outerBrokenData = ref<any>(null)
 
 // Error logging for demo purposes
 interface ErrorLogEntry {
-  timestamp: string;
-  type: string;
-  message: string;
-  retryCount?: number;
+  timestamp: string
+  type: string
+  message: string
+  retryCount?: number
 }
 
-const errorLog = ref<ErrorLogEntry[]>([]);
+const errorLog = ref<ErrorLogEntry[]>([])
 
 const addToErrorLog = (type: string, message: string, retryCount?: number) => {
   errorLog.value.unshift({
@@ -256,150 +256,150 @@ const addToErrorLog = (type: string, message: string, retryCount?: number) => {
     type,
     message,
     retryCount
-  });
+  })
 
   // Keep only last 15 errors
   if (errorLog.value.length > 15) {
-    errorLog.value = errorLog.value.slice(0, 15);
+    errorLog.value = errorLog.value.slice(0, 15)
   }
-};
+}
 
 // Error trigger functions
 const triggerSyncError = () => {
-  showBrokenComponent.value = true;
-};
+  showBrokenComponent.value = true
+}
 
 const triggerRenderError = () => {
   // This will cause a render error
-  brokenData.value = null;
-  showBrokenComponent.value = true;
-};
+  brokenData.value = null
+  showBrokenComponent.value = true
+}
 
 const triggerCustomError = () => {
-  customBrokenData.value = null;
-  showCustomBrokenComponent.value = true;
-};
+  customBrokenData.value = null
+  showCustomBrokenComponent.value = true
+}
 
 const triggerAsyncError = async () => {
-  asyncLoading.value = true;
-  asyncData.value = null;
+  asyncLoading.value = true
+  asyncData.value = null
 
   try {
     // Simulate async operation that fails
     await new Promise((_, reject) => {
-      setTimeout(() => reject(new Error('Simulated async error')), 1000);
-    });
+      setTimeout(() => reject(new Error('Simulated async error')), 1000)
+    })
   } catch (error) {
     // Re-throw to trigger error boundary
-    throw error;
+    throw error
   } finally {
-    asyncLoading.value = false;
+    asyncLoading.value = false
   }
-};
+}
 
 const triggerAdvancedAsyncError = async () => {
-  advancedAsyncLoading.value = true;
-  advancedAsyncData.value = null;
+  advancedAsyncLoading.value = true
+  advancedAsyncData.value = null
 
   try {
     // Simulate async operation that fails
     await new Promise((_, reject) => {
-      setTimeout(() => reject(new Error('Advanced async operation failed')), 800);
-    });
+      setTimeout(() => reject(new Error('Advanced async operation failed')), 800)
+    })
   } catch (error) {
-    throw error;
+    throw error
   } finally {
-    advancedAsyncLoading.value = false;
+    advancedAsyncLoading.value = false
   }
-};
+}
 
 const triggerSuccessfulAsync = async () => {
-  asyncLoading.value = true;
-  asyncData.value = null;
+  asyncLoading.value = true
+  asyncData.value = null
 
   try {
     // Simulate successful async operation
     await new Promise(resolve => {
-      setTimeout(() => resolve('Success!'), 1000);
-    });
-    asyncData.value = 'Async operation completed successfully';
+      setTimeout(() => resolve('Success!'), 1000)
+    })
+    asyncData.value = 'Async operation completed successfully'
   } finally {
-    asyncLoading.value = false;
+    asyncLoading.value = false
   }
-};
+}
 
 const triggerInnerError = () => {
-  innerBrokenData.value = null;
-  showInnerBrokenComponent.value = true;
-};
+  innerBrokenData.value = null
+  showInnerBrokenComponent.value = true
+}
 
 const triggerOuterError = () => {
-  outerBrokenData.value = null;
-  showOuterBrokenComponent.value = true;
-};
+  outerBrokenData.value = null
+  showOuterBrokenComponent.value = true
+}
 
 // Error handlers
 const handleDemoError = (error: Error) => {
-  addToErrorLog('Basic Error Boundary', error.message);
-  console.error('raadgiverportalen: Demo error caught by basic boundary', error);
-};
+  addToErrorLog('Basic Error Boundary', error.message)
+  console.error('raadgiverportalen: Demo error caught by basic boundary', error)
+}
 
 const handleCustomError = (error: Error) => {
-  addToErrorLog('Custom Error Boundary', error.message);
-  console.error('raadgiverportalen: Custom error caught', error);
-};
+  addToErrorLog('Custom Error Boundary', error.message)
+  console.error('raadgiverportalen: Custom error caught', error)
+}
 
 const handleAsyncDemoError = (error: Error, retryCount: number) => {
-  addToErrorLog('Async Error Boundary', error.message, retryCount);
-  console.error(`raadgiverportalen: Demo async error caught (retry ${retryCount})`, error);
-};
+  addToErrorLog('Async Error Boundary', error.message, retryCount)
+  console.error(`raadgiverportalen: Demo async error caught (retry ${retryCount})`, error)
+}
 
 const handleAdvancedAsyncError = (error: Error, retryCount: number) => {
-  addToErrorLog('Advanced Async Error', error.message, retryCount);
-  console.error(`raadgiverportalen: Advanced async error caught (retry ${retryCount})`, error);
-};
+  addToErrorLog('Advanced Async Error', error.message, retryCount)
+  console.error(`raadgiverportalen: Advanced async error caught (retry ${retryCount})`, error)
+}
 
 const handleMaxRetriesDemo = (error: Error) => {
-  addToErrorLog('Max Retries Reached', `${error.message} - giving up`);
-  console.error('raadgiverportalen: Demo async error max retries reached', error);
-};
+  addToErrorLog('Max Retries Reached', `${error.message} - giving up`)
+  console.error('raadgiverportalen: Demo async error max retries reached', error)
+}
 
 const handleAdvancedMaxRetries = (error: Error) => {
-  addToErrorLog('Advanced Max Retries', `${error.message} - giving up`);
-  console.error('raadgiverportalen: Advanced async error max retries reached', error);
-};
+  addToErrorLog('Advanced Max Retries', `${error.message} - giving up`)
+  console.error('raadgiverportalen: Advanced async error max retries reached', error)
+}
 
 // Reset handlers
 const handleReset = () => {
-  showBrokenComponent.value = false;
-  brokenData.value = { nonExistent: { property: 'value' } };
-  addToErrorLog('Basic Reset', 'Error boundary reset completed');
-};
+  showBrokenComponent.value = false
+  brokenData.value = { nonExistent: { property: 'value' } }
+  addToErrorLog('Basic Reset', 'Error boundary reset completed')
+}
 
 const handleAsyncRetry = (retryCount: number) => {
-  asyncData.value = null;
-  addToErrorLog('Async Retry', `Async retry attempt ${retryCount}`);
-};
+  asyncData.value = null
+  addToErrorLog('Async Retry', `Async retry attempt ${retryCount}`)
+}
 
 const handleAsyncReset = () => {
-  asyncLoading.value = false;
-  asyncData.value = null;
-  addToErrorLog('Async Reset', 'Async error boundary reset completed');
-};
+  asyncLoading.value = false
+  asyncData.value = null
+  addToErrorLog('Async Reset', 'Async error boundary reset completed')
+}
 
 const handleInnerReset = () => {
-  showInnerBrokenComponent.value = false;
-  addToErrorLog('Inner Reset', 'Inner error boundary reset');
-};
+  showInnerBrokenComponent.value = false
+  addToErrorLog('Inner Reset', 'Inner error boundary reset')
+}
 
 const handleOuterReset = () => {
-  showOuterBrokenComponent.value = false;
-  addToErrorLog('Outer Reset', 'Outer error boundary reset');
-};
+  showOuterBrokenComponent.value = false
+  addToErrorLog('Outer Reset', 'Outer error boundary reset')
+}
 
 const clearErrorLog = () => {
-  errorLog.value = [];
-};
+  errorLog.value = []
+}
 </script>
 
 <style lang="scss" scoped>

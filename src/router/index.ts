@@ -1,16 +1,16 @@
 // Router public API
-export { 
-  router, 
-  navigate, 
-  back, 
-  forward, 
-  replace, 
-  isActive, 
-  getMeta, 
+export {
+  router,
+  navigate,
+  back,
+  forward,
+  replace,
+  isActive,
+  getMeta,
   globalBeforeEach,
   setScrollBehavior,
   initRouter,
-  clearScrollPositions 
+  clearScrollPositions
 } from './router-core'
 export { default as RouterView } from './RouterView.vue'
 export { default as RouterLink } from './RouterLink.vue'

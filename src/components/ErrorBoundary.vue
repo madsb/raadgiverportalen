@@ -21,7 +21,7 @@
               <small>{{ lastError.message }}</small>
             </div>
             <div v-if="showRetry || showReset" class="d-flex gap-2 mt-3">
-              <button v-if="showRetry" class="button button-secondary" @click="retry" :disabled="retrying">
+              <button v-if="showRetry" class="button button-secondary" :disabled="retrying" @click="retry">
                 {{ retrying ? 'Prøver igen...' : 'Prøv igen' }}
               </button>
               <button v-if="showReset" class="button button-tertiary" @click="reset">Nulstil</button>
@@ -35,16 +35,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onErrorCaptured, nextTick, readonly } from 'vue';
+import { ref, onErrorCaptured, nextTick, readonly } from 'vue'
 
 interface Props {
-  errorTitle?: string;
-  errorMessage?: string;
-  showRetry?: boolean;
-  showReset?: boolean;
-  showErrorDetails?: boolean;
-  appPrefix?: string;
-  resetStrategy?: 'soft' | 'hard';
+  errorTitle?: string
+  errorMessage?: string
+  showRetry?: boolean
+  showReset?: boolean
+  showErrorDetails?: boolean
+  appPrefix?: string
+  resetStrategy?: 'soft' | 'hard'
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -55,88 +55,92 @@ const props = withDefaults(defineProps<Props>(), {
   showErrorDetails: false,
   appPrefix: 'raadgiverportalen',
   resetStrategy: 'soft'
-});
+})
 
 const emit = defineEmits<{
-  error: [error: Error];
-  retry: [];
-  reset: [];
-  beforeRetry: [];
-  afterRetry: [];
-}>();
+  error: [error: Error]
+  retry: []
+  reset: []
+  beforeRetry: []
+  afterRetry: []
+}>()
 
-const hasError = ref(false);
-const retrying = ref(false);
-const lastError = ref<Error | null>(null);
-const errorBoundaryKey = ref(0);
+const hasError = ref(false)
+const retrying = ref(false)
+const lastError = ref<Error | null>(null)
+const errorBoundaryKey = ref(0)
 
 onErrorCaptured((error: Error) => {
-  hasError.value = true;
-  lastError.value = error;
+  hasError.value = true
+  lastError.value = error
 
   // Log error with app prefix as required by VG rules
-  console.error(`${props.appPrefix}: ${error.message}`, error);
+  console.error(`${props.appPrefix}: ${error.message}`, error)
 
-  emit('error', error);
+  emit('error', error)
 
   // Prevent the error from propagating further
-  return false;
-});
+  return false
+})
 
 const retry = async () => {
-  if (retrying.value) return;
+  if (retrying.value) {
+    return
+  }
 
-  retrying.value = true;
-  emit('beforeRetry');
+  retrying.value = true
+  emit('beforeRetry')
 
   try {
     // Reset error state
-    hasError.value = false;
-    lastError.value = null;
+    hasError.value = false
+    lastError.value = null
 
     // Use nextTick to ensure DOM updates before emitting retry
-    await nextTick();
+    await nextTick()
 
-    emit('retry');
-    emit('afterRetry');
+    emit('retry')
+    emit('afterRetry')
   } catch (error) {
     // If retry fails, re-trigger error state
-    hasError.value = true;
-    lastError.value = error as Error;
-    console.error(`${props.appPrefix}: Retry failed`, error);
+    hasError.value = true
+    lastError.value = error as Error
+    console.error(`${props.appPrefix}: Retry failed`, error)
   } finally {
-    retrying.value = false;
+    retrying.value = false
   }
-};
+}
 
 const reset = async () => {
-  if (retrying.value) return;
+  if (retrying.value) {
+    return
+  }
 
-  retrying.value = true;
+  retrying.value = true
 
   try {
     if (props.resetStrategy === 'hard') {
       // Hard reset: Force component re-render by changing key
-      errorBoundaryKey.value++;
+      errorBoundaryKey.value++
     }
 
     // Reset all error state
-    hasError.value = false;
-    lastError.value = null;
+    hasError.value = false
+    lastError.value = null
 
     // Use nextTick to ensure DOM updates
-    await nextTick();
+    await nextTick()
 
-    emit('reset');
+    emit('reset')
   } finally {
-    retrying.value = false;
+    retrying.value = false
   }
-};
+}
 
 // Allow manual operations from slot
 const manualRetry = () => {
-  retry();
-};
+  retry()
+}
 
 // Expose methods for parent components
 defineExpose({
@@ -144,7 +148,7 @@ defineExpose({
   reset,
   hasError: readonly(hasError),
   lastError: readonly(lastError)
-});
+})
 </script>
 
 <style lang="scss" scoped>

@@ -118,23 +118,23 @@
 </template>
 
 <script setup lang="ts">
-import { bucketClientService } from '@erst-vg/bucket-json-client';
-import { PropType, Ref, computed, inject, ref, watch } from 'vue';
-import { Role } from '../enums/role.enum';
-import { TokenStatus } from '../enums/tokenStatus.enum';
-import { Bruger } from '../models/bruger.model';
-import { TekstData, Tekster } from '../models/tekster.model';
-import { LOG_PREFIX } from '../utils/log-util';
+import { bucketClientService } from '@erst-vg/bucket-json-client'
+import { PropType, Ref, computed, inject, ref, watch } from 'vue'
+import { Role } from '../../enums/role.enum'
+import { TokenStatus } from '../../enums/tokenStatus.enum'
+import { Bruger } from '../../models/bruger.model'
+import { TekstData, Tekster } from '../../models/tekster.model'
+import { LOG_PREFIX } from '../../utils/log-util'
 
-const isVirksomhedsguiden = inject('isVirksomhedsguiden');
-const emit = defineEmits(['requestToken']);
+const isVirksomhedsguiden = inject('isVirksomhedsguiden')
+const emit = defineEmits(['requestToken'])
 const props = defineProps({
   tekstnoegleBundtId: {
     type: String,
     default: ''
   },
   tekstnoegleCvrNummre: {
-    type: Array as PropType<String[]>,
+    type: Array as PropType<string[]>,
     default: () => []
   },
   token: {
@@ -146,68 +146,68 @@ const props = defineProps({
     default: null,
     required: false
   }
-});
+})
 
-const data: Ref<TekstData | null> = ref(null);
-const apiResponse: Ref<any> = ref('');
+const data: Ref<TekstData | null> = ref(null)
+const apiResponse: Ref<any> = ref('')
 // Indholder seneste versionsnummer for data i Storage API. Denne bliver opdateret når Storage API returnerer data
-const dataVersion = ref(0);
-const pending = ref(false);
-const error = ref(false);
-const redigeringsmode = ref(false);
+const dataVersion = ref(0)
+const pending = ref(false)
+const error = ref(false)
+const redigeringsmode = ref(false)
 
 const accessToken = computed((): string => {
-  const { token } = props;
-  return token === TokenStatus.CANCELLED ? '' : token;
-});
+  const { token } = props
+  return token === TokenStatus.CANCELLED ? '' : token
+})
 
-const tekstFromTekstnoegle = computed(() => (data.value?.tekster?.faelles as Tekster)?.eksempel);
+const tekstFromTekstnoegle = computed(() => (data.value?.tekster?.faelles as Tekster)?.eksempel)
 
 const allowJsonEdit = computed(() => {
   // Altid tillad adgang til redigering når leverandør-applikationen kører selvstændigt udenfor Virksomhedsguiden
-  let hasAccess = true;
+  let hasAccess = true
   if (isVirksomhedsguiden) {
-    const { bruger } = props;
+    const { bruger } = props
     if (bruger) {
-      const { roller, cvr } = bruger;
+      const { roller, cvr } = bruger
       // Kun ejerne af tekstnøgle bundt ID og specifikke roller har adgang til redigering
-      const isOwner = !!props.tekstnoegleCvrNummre.find(c => c === cvr);
-      hasAccess = isOwner || roller.includes(Role.ERF_ADMIN);
+      const isOwner = !!props.tekstnoegleCvrNummre.find(c => c === cvr)
+      hasAccess = isOwner || roller.includes(Role.ERF_ADMIN)
     }
   }
-  return hasAccess;
-});
+  return hasAccess
+})
 
 // Henter JSON data fra Storage API igennem bucketClientService
 const hentData = async () => {
-  pending.value = true;
-  error.value = false;
+  pending.value = true
+  error.value = false
   bucketClientService
     .hentData<TekstData>()
     .then(response => {
-      const { errors } = response;
+      const { errors } = response
       if (errors && errors?.length > 0) {
-        throw Error('graphQL fejl');
+        throw Error('graphQL fejl')
       }
-      const { jsonindhold, version } = response.data!;
-      data.value = jsonindhold;
-      apiResponse.value = response.data;
-      dataVersion.value = version;
+      const { jsonindhold, version } = response.data!
+      data.value = jsonindhold
+      apiResponse.value = response.data
+      dataVersion.value = version
     })
     .catch(e => {
       // eslint-disable-next-line no-console
-      console.error(LOG_PREFIX, e);
-      error.value = true;
+      console.error(LOG_PREFIX, e)
+      error.value = true
     })
     .finally(() => {
-      pending.value = false;
-    });
-};
+      pending.value = false
+    })
+}
 
 // Gemmer JSON data i Storage API igennem bucketClientService
 const gemData = async (payload: TekstData = data.value!) => {
-  pending.value = true;
-  error.value = false;
+  pending.value = true
+  error.value = false
   bucketClientService
     .gemData<TekstData>({
       data: payload,
@@ -215,25 +215,25 @@ const gemData = async (payload: TekstData = data.value!) => {
       version: dataVersion.value
     })
     .then(response => {
-      const { errors } = response;
+      const { errors } = response
       if (errors && errors?.length > 0) {
         // Hvis API fx. kaldes med et forældet versionsnummer (versionskonflikt), så kan det håndteres her.
-        throw Error('graphQL fejl');
+        throw Error('graphQL fejl')
       }
-      const { jsonindhold, version } = response.data!;
-      apiResponse.value = response.data;
-      data.value = jsonindhold;
-      dataVersion.value = version;
+      const { jsonindhold, version } = response.data!
+      apiResponse.value = response.data
+      data.value = jsonindhold
+      dataVersion.value = version
     })
     .catch(e => {
       // eslint-disable-next-line no-console
-      console.error(LOG_PREFIX, e);
-      error.value = true;
+      console.error(LOG_PREFIX, e)
+      error.value = true
     })
     .finally(() => {
-      pending.value = false;
-    });
-};
+      pending.value = false
+    })
+}
 
 // Venter på en token som klienten kan initialiseres med
 watch(
@@ -243,23 +243,23 @@ watch(
       bucketClientService.init({
         tekstnoegleBundtId: props.tekstnoegleBundtId,
         token
-      });
-      await hentData();
+      })
+      await hentData()
     }
   },
   {
     immediate: true
   }
-);
+)
 
 // Funktioner til redigering af tekstnøgle
 const toggleRedigering = () => {
-  redigeringsmode.value = !redigeringsmode.value;
-};
+  redigeringsmode.value = !redigeringsmode.value
+}
 
 const opdaterTekstnoegle = (event: Event) => {
-  (data.value!.tekster.faelles as Tekster).eksempel = (event.target as HTMLInputElement).value;
-};
+  ;(data.value!.tekster.faelles as Tekster).eksempel = (event.target as HTMLInputElement).value
+}
 
 // Kan bruges til at oprette JSON i ERST Storage løsning, hvis der ikke allerede findes data noget for tekstnoegleBundtId
 const initializeData = () => {
@@ -269,6 +269,6 @@ const initializeData = () => {
         eksempel: 'Dette er en tekstnøgle, som kan redigeres'
       }
     }
-  });
-};
+  })
+}
 </script>

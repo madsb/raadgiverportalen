@@ -25,5 +25,5 @@
 </template>
 
 <script setup lang="ts">
-import { VgIcon } from '@erst-vg/vg-design-wrapper';
+import { VgIcon } from '@erst-vg/vg-design-wrapper'
 </script>

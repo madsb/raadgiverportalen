@@ -24,8 +24,7 @@ module.exports = {
     'plugin:import/warnings',
     'plugin:import/typescript',
     'plugin:vue/recommended',
-    'prettier/@typescript-eslint',
-    'prettier/vue'
+    'plugin:prettier/recommended'
   ],
   parser: 'vue-eslint-parser',
   parserOptions: {
@@ -34,7 +33,7 @@ module.exports = {
     sourceType: 'module',
     extraFileExtensions: ['.vue']
   },
-  plugins: ['vue', '@typescript-eslint/eslint-plugin', '@typescript-eslint/tslint'],
+  plugins: ['vue', '@typescript-eslint', 'prettier'],
   ignorePatterns: ["build/**"],
   rules: {
     '@typescript-eslint/no-unsafe-argument': 'off',
@@ -58,7 +57,6 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': 'off',
     '@typescript-eslint/adjacent-overload-signatures': 'warn',
     '@typescript-eslint/array-type': 'warn',
-    '@typescript-eslint/ban-types': 'warn',
     '@typescript-eslint/consistent-type-assertions': 'warn',
     '@typescript-eslint/consistent-type-definitions': 'warn',
     '@typescript-eslint/explicit-function-return-type': 'off',
@@ -69,19 +67,6 @@ module.exports = {
       }
     ],
     '@typescript-eslint/interface-name-prefix': 'off',
-    '@typescript-eslint/member-delimiter-style': [
-      'warn',
-      {
-        multiline: {
-          delimiter: 'semi',
-          requireLast: true
-        },
-        singleline: {
-          delimiter: 'semi',
-          requireLast: false
-        }
-      }
-    ],
     '@typescript-eslint/member-ordering': 'off',
     '@typescript-eslint/no-empty-function': 'warn',
     '@typescript-eslint/no-empty-interface': 'warn',
@@ -94,20 +79,15 @@ module.exports = {
     '@typescript-eslint/prefer-for-of': 'warn',
     '@typescript-eslint/prefer-function-type': 'warn',
     '@typescript-eslint/prefer-namespace-keyword': 'warn',
-    '@typescript-eslint/quotes': ['warn', 'single'],
-    '@typescript-eslint/semi': ['warn', 'always'],
     '@typescript-eslint/triple-slash-reference': 'warn',
-    '@typescript-eslint/type-annotation-spacing': 'warn',
     '@typescript-eslint/unified-signatures': 'warn',
     'arrow-body-style': 'warn',
     'arrow-parens': ['off', 'as-needed'],
     camelcase: 'warn',
-    'comma-dangle': 'off',
     complexity: 'off',
     'constructor-super': 'warn',
     curly: 'warn',
     'dot-notation': 'warn',
-    'eol-last': 'warn',
     eqeqeq: ['warn', 'smart'],
     'guard-for-in': 'off',
     'id-blacklist': ['warn', 'any', 'Number', 'number', 'String', 'string', 'Boolean', 'boolean'],
@@ -125,12 +105,10 @@ module.exports = {
     'no-eval': 'warn',
     'no-fallthrough': 'off',
     'no-invalid-this': 'off',
-    'no-multiple-empty-lines': 'off',
     'no-new-wrappers': 'warn',
     'no-shadow': 'off',
     '@typescript-eslint/no-shadow': ['error'],
     'no-throw-literal': 'warn',
-    'no-trailing-spaces': 'warn',
     'no-undef-init': 'warn',
     'no-underscore-dangle': 'warn',
     'no-unsafe-finally': 'warn',
@@ -144,29 +122,8 @@ module.exports = {
     'prefer-const': 'warn',
     'quote-props': ['warn', 'as-needed'],
     radix: 'warn',
-    'space-before-function-paren': [
-      'warn',
-      {
-        anonymous: 'never',
-        asyncArrow: 'always',
-        named: 'never'
-      }
-    ],
     'spaced-comment': 'warn',
     'use-isnan': 'warn',
-    'valid-typeof': 'off',
-    '@typescript-eslint/tslint/config': [
-      'error',
-      {
-        rules: {
-          'no-non-null-assertion': false,
-          'import-spacing': true,
-          'jsdoc-format': false,
-          'no-reference-import': false,
-          'one-line': [true, 'check-catch', 'check-else', 'check-finally', 'check-open-brace', 'check-whitespace'],
-          whitespace: [true, 'check-branch', 'check-decl', 'check-operator', 'check-separator', 'check-type', 'check-typecast']
-        }
-      }
-    ]
+    'valid-typeof': 'off'
   }
 };

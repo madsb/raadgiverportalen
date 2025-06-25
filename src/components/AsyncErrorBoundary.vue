@@ -30,10 +30,10 @@
               </div>
             </div>
             <div v-if="(showRetry && retryCount < maxRetries) || showReset" class="d-flex gap-2 mt-3">
-              <button v-if="showRetry && retryCount < maxRetries" class="button button-secondary" @click="retry" :disabled="retrying">
+              <button v-if="showRetry && retryCount < maxRetries" class="button button-secondary" :disabled="retrying" @click="retry">
                 {{ retrying ? 'Prøver igen...' : `Prøv igen (${retryCount}/${maxRetries})` }}
               </button>
-              <button v-if="showReset" class="button button-tertiary" @click="reset" :disabled="retrying">Nulstil</button>
+              <button v-if="showReset" class="button button-tertiary" :disabled="retrying" @click="reset">Nulstil</button>
             </div>
           </div>
         </div>
@@ -44,18 +44,18 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onErrorCaptured, nextTick, readonly } from 'vue';
+import { ref, onErrorCaptured, nextTick, readonly } from 'vue'
 
 interface Props {
-  errorTitle?: string;
-  errorMessage?: string;
-  showRetry?: boolean;
-  showReset?: boolean;
-  appPrefix?: string;
-  maxRetries?: number;
-  retryDelay?: number;
-  resetStrategy?: 'soft' | 'hard';
-  backoffMultiplier?: number;
+  errorTitle?: string
+  errorMessage?: string
+  showRetry?: boolean
+  showReset?: boolean
+  appPrefix?: string
+  maxRetries?: number
+  retryDelay?: number
+  resetStrategy?: 'soft' | 'hard'
+  backoffMultiplier?: number
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -68,119 +68,121 @@ const props = withDefaults(defineProps<Props>(), {
   retryDelay: 1000,
   resetStrategy: 'soft',
   backoffMultiplier: 1.5
-});
+})
 
 const emit = defineEmits<{
-  error: [error: Error, retryCount: number];
-  retry: [retryCount: number];
-  reset: [];
-  maxRetriesReached: [error: Error];
-  beforeRetry: [retryCount: number];
-  afterRetry: [retryCount: number];
-  retryFailed: [error: Error, retryCount: number];
-}>();
+  error: [error: Error, retryCount: number]
+  retry: [retryCount: number]
+  reset: []
+  maxRetriesReached: [error: Error]
+  beforeRetry: [retryCount: number]
+  afterRetry: [retryCount: number]
+  retryFailed: [error: Error, retryCount: number]
+}>()
 
-const hasError = ref(false);
-const retrying = ref(false);
-const retryCount = ref(0);
-const errorDetails = ref<string>('');
-const lastError = ref<Error | null>(null);
-const errorBoundaryKey = ref(0);
+const hasError = ref(false)
+const retrying = ref(false)
+const retryCount = ref(0)
+const errorDetails = ref<string>('')
+const lastError = ref<Error | null>(null)
+const errorBoundaryKey = ref(0)
 
 onErrorCaptured((error: Error) => {
-  hasError.value = true;
-  lastError.value = error;
+  hasError.value = true
+  lastError.value = error
 
   // Enhanced error logging with retry count
-  console.error(`${props.appPrefix}: ${error.message} (attempt ${retryCount.value + 1})`, error);
+  console.error(`${props.appPrefix}: ${error.message} (attempt ${retryCount.value + 1})`, error)
 
   // Store error details for display
-  errorDetails.value = error.message;
+  errorDetails.value = error.message
 
-  emit('error', error, retryCount.value);
+  emit('error', error, retryCount.value)
 
   // Prevent the error from propagating further
-  return false;
-});
+  return false
+})
 
-const calculateRetryDelay = (attemptNumber: number): number => {
-  return props.retryDelay * Math.pow(props.backoffMultiplier, attemptNumber);
-};
+const calculateRetryDelay = (attemptNumber: number): number => props.retryDelay * Math.pow(props.backoffMultiplier, attemptNumber)
 
 const retry = async () => {
-  if (retrying.value) return;
-
-  if (retryCount.value >= props.maxRetries) {
-    console.error(`${props.appPrefix}: Max retries (${props.maxRetries}) reached for error:`, lastError.value);
-    emit('maxRetriesReached', lastError.value!);
-    return;
+  if (retrying.value) {
+    return
   }
 
-  retrying.value = true;
-  retryCount.value++;
+  if (retryCount.value >= props.maxRetries) {
+    console.error(`${props.appPrefix}: Max retries (${props.maxRetries}) reached for error:`, lastError.value)
+    emit('maxRetriesReached', lastError.value!)
+    return
+  }
 
-  emit('beforeRetry', retryCount.value);
+  retrying.value = true
+  retryCount.value++
+
+  emit('beforeRetry', retryCount.value)
 
   try {
     // Calculate delay with backoff
-    const delay = calculateRetryDelay(retryCount.value - 1);
+    const delay = calculateRetryDelay(retryCount.value - 1)
 
     if (delay > 0) {
-      await new Promise(resolve => setTimeout(resolve, delay));
+      await new Promise(resolve => setTimeout(resolve, delay))
     }
 
     // Reset error state
-    hasError.value = false;
-    errorDetails.value = '';
+    hasError.value = false
+    errorDetails.value = ''
 
     // Use nextTick to ensure DOM updates before emitting retry
-    await nextTick();
+    await nextTick()
 
-    emit('retry', retryCount.value);
-    emit('afterRetry', retryCount.value);
+    emit('retry', retryCount.value)
+    emit('afterRetry', retryCount.value)
   } catch (error) {
     // If retry setup fails, handle gracefully
-    hasError.value = true;
-    lastError.value = error as Error;
-    errorDetails.value = (error as Error).message;
-    console.error(`${props.appPrefix}: Retry setup failed`, error);
-    emit('retryFailed', error as Error, retryCount.value);
+    hasError.value = true
+    lastError.value = error as Error
+    errorDetails.value = (error as Error).message
+    console.error(`${props.appPrefix}: Retry setup failed`, error)
+    emit('retryFailed', error as Error, retryCount.value)
   } finally {
-    retrying.value = false;
+    retrying.value = false
   }
-};
+}
 
 const reset = async () => {
-  if (retrying.value) return;
+  if (retrying.value) {
+    return
+  }
 
-  retrying.value = true;
+  retrying.value = true
 
   try {
     if (props.resetStrategy === 'hard') {
       // Hard reset: Force component re-render by changing key
-      errorBoundaryKey.value++;
+      errorBoundaryKey.value++
     }
 
     // Reset all error state
-    hasError.value = false;
-    retrying.value = false;
-    retryCount.value = 0;
-    errorDetails.value = '';
-    lastError.value = null;
+    hasError.value = false
+    retrying.value = false
+    retryCount.value = 0
+    errorDetails.value = ''
+    lastError.value = null
 
     // Use nextTick to ensure DOM updates
-    await nextTick();
+    await nextTick()
 
-    emit('reset');
+    emit('reset')
   } finally {
-    retrying.value = false;
+    retrying.value = false
   }
-};
+}
 
 // Allow manual retry from slot
 const manualRetry = () => {
-  retry();
-};
+  retry()
+}
 
 // Expose methods and state for parent components
 defineExpose({
@@ -190,7 +192,7 @@ defineExpose({
   lastError: readonly(lastError),
   retryCount: readonly(retryCount),
   retrying: readonly(retrying)
-});
+})
 </script>
 
 <style lang="scss" scoped>

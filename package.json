@@ -38,6 +38,8 @@
     "eslint-formatter-pretty": "5.0.0",
     "eslint-import-resolver-typescript": "3.6.1",
     "eslint-plugin-import": "2.29.1",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-vue": "^10.2.0",
     "jsdom": "^26.1.0",
     "postcss": "8.4.31",
     "prettier": "2.7.1",

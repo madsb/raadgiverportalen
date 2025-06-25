@@ -13,16 +13,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import multiselect from 'vue-multiselect';
+import { ref } from 'vue'
+import multiselect from 'vue-multiselect'
 
-const value = ref(null);
-const options = ['Danmark', 'Sverige', 'Norge'];
+const value = ref(null)
+const options = ['Danmark', 'Sverige', 'Norge']
 </script>
 
 <style lang="scss" scoped>
 // Deep selector er nødvendig her når style er scoped
 :deep(.custom-multiselect) {
-  @import '../styles/components/_multiselect.scss';
+  @import '../../styles/components/_multiselect.scss';
 }
 </style>

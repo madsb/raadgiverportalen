@@ -40,10 +40,10 @@
 </template>
 
 <script setup lang="ts">
-import Accordion from './VgDesign/Accordion.vue';
-import Buttons from './VgDesign/Buttons.vue';
-import Cards from './VgDesign/Cards.vue';
-import Icons from './VgDesign/Icons.vue';
-import Liste from './VgDesign/Liste.vue';
-import Pagination from './VgDesign/Pagination.vue';
+import Accordion from '../../components/VgDesign/Accordion.vue'
+import Buttons from '../../components/VgDesign/Buttons.vue'
+import Cards from '../../components/VgDesign/Cards.vue'
+import Icons from '../../components/VgDesign/Icons.vue'
+import Liste from '../../components/VgDesign/Liste.vue'
+import Pagination from '../../components/VgDesign/Pagination.vue'
 </script>

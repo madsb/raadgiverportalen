@@ -1,4 +1,4 @@
 declare interface DKFDSModal {
-  hide: () => void;
-  show: () => void;
+  hide: () => void
+  show: () => void
 }

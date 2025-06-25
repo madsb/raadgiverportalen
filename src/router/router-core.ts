@@ -1,5 +1,6 @@
 // Core router functionality
 import { reactive, markRaw } from 'vue'
+import { piwikService } from '@erst-vg/piwik-event-wrapper'
 import type { RouteRecord, ResolvedRoute, GuardFn } from './routes'
 import routes from './routes'
 
@@ -74,59 +75,52 @@ function getParamName(segment: string): string {
   return segment.slice(1) // Remove the :
 }
 
-
 // Match route - simplified for flat structure
-function matchRoute(
-  path: string,
-  route: RouteRecord
-): { matches: boolean; params: Record<string, string> } {
+function matchRoute(path: string, route: RouteRecord): { matches: boolean; params: Record<string, string> } {
   const pathTokens = tokenize(path)
   const routeTokens = tokenize(route.path)
-  
+
   // Wildcard route
   if (route.path === '*') {
     return { matches: true, params: {} }
   }
-  
+
   // Check token count
   if (pathTokens.length !== routeTokens.length) {
     return { matches: false, params: {} }
   }
-  
+
   // Match tokens
   const params: Record<string, string> = {}
-  
+
   for (let i = 0; i < routeTokens.length; i++) {
     const routeToken = routeTokens[i]
     const pathToken = pathTokens[i]
-    
+
     if (isDynamicSegment(routeToken)) {
       params[getParamName(routeToken)] = pathToken
     } else if (routeToken !== pathToken) {
       return { matches: false, params: {} }
     }
   }
-  
+
   return { matches: true, params }
 }
 
 // Find best matching route (flat structure)
-function findMatchingRoute(
-  path: string,
-  records: RouteRecord[]
-): MatchedChain | null {
+function findMatchingRoute(path: string, records: RouteRecord[]): MatchedChain | null {
   let bestMatch: MatchedRoute | null = null
   let wildcardMatch: MatchedRoute | null = null
-  
+
   for (const record of records) {
     const { matches, params } = matchRoute(path, record)
-    
+
     if (matches) {
       const rawRecord = {
         ...record,
         component: record.component ? markRaw(record.component) : undefined
       }
-      
+
       if (record.path === '*') {
         wildcardMatch = { record: rawRecord, params }
       } else {
@@ -135,39 +129,39 @@ function findMatchingRoute(
       }
     }
   }
-  
+
   const match = bestMatch || wildcardMatch
-  
+
   if (match) {
     return {
       chain: [match],
       params: match.params
     }
   }
-  
+
   return null
 }
 
 // Execute guard pipeline
-async function executeGuards(
-  chain: MatchedRoute[],
-  to: ResolvedRoute,
-  from: ResolvedRoute | null
-): Promise<boolean> {
+async function executeGuards(chain: MatchedRoute[], to: ResolvedRoute, from: ResolvedRoute | null): Promise<boolean> {
   // Global guards first
   for (const guard of globalBeforeEach) {
     const result = await guard(to, from)
-    if (!result) return false
+    if (!result) {
+      return false
+    }
   }
-  
+
   // Route-specific guards
   for (const matched of chain) {
     if (matched.record.beforeEnter) {
       const result = await matched.record.beforeEnter(to, from)
-      if (!result) return false
+      if (!result) {
+        return false
+      }
     }
   }
-  
+
   return true
 }
 
@@ -186,17 +180,15 @@ function saveScrollPosition(): void {
 async function applyScrollBehavior(to: ResolvedRoute, from: ResolvedRoute | null): Promise<void> {
   // Only look for saved position if we're going to a previously visited route
   const savedPosition = scrollPositions.get(to.path) || null
-  
+
   // Call the scroll behavior handler
-  const position = await Promise.resolve(
-    scrollBehavior(to, from, savedPosition)
-  )
-  
+  const position = await Promise.resolve(scrollBehavior(to, from, savedPosition))
+
   // If false, don't change scroll position
   if (position === false) {
     return
   }
-  
+
   // Use requestAnimationFrame to ensure DOM is updated
   requestAnimationFrame(() => {
     if ('el' in position && position.el) {
@@ -221,30 +213,29 @@ async function applyScrollBehavior(to: ResolvedRoute, from: ResolvedRoute | null
 export async function resolve(): Promise<void> {
   const hash = window.location.hash.slice(1) || '/'
   const tokens = tokenize(hash)
-  
+
   // Save scroll position before navigating away
   saveScrollPosition()
-  
+
   // Find matching route (simplified for flat structure)
   const matched = findMatchingRoute(hash, routes)
-  
+
   if (!matched) {
     // This shouldn't happen if we have a wildcard route
     console.error('No route matched for:', hash)
     return
   }
-  
-  
+
   // Create resolved route
   const to: ResolvedRoute = {
     path: hash,
     params: matched.params,
     meta: matched.chain[matched.chain.length - 1]?.record.meta || {}
   }
-  
+
   // Execute guards
   const canNavigate = await executeGuards(matched.chain, to, previousRoute)
-  
+
   if (!canNavigate) {
     // Navigation cancelled by guard
     if (previousRoute) {
@@ -253,24 +244,39 @@ export async function resolve(): Promise<void> {
     }
     return
   }
-  
+
   // Update router state
   router.path = hash
   router.params = matched.params
   router.chain = matched.chain
   router.component = matched.chain[0]?.record.component || null
-  
+
   // Update previous route (but save reference to from for scroll behavior)
   const from = previousRoute
   previousRoute = to
-  
+
   // Apply scroll behavior
   await applyScrollBehavior(to, from)
-  
+
+  // Emit Piwik PageView event as required by VG rules (only if not initial page load)
+  if (from !== null) {
+    try {
+      piwikService.emitPageViewEvent()
+    } catch (error) {
+      // Piwik service not initialized (e.g., in test environment)
+      // This is expected in test environment, so we silently ignore
+      if (import.meta.env.DEV) {
+        console.debug('Piwik service not initialized, skipping PageView event')
+      }
+    }
+  }
+
   // Emit custom event
-  window.dispatchEvent(new CustomEvent('rgp:route-changed', {
-    detail: { path: hash, params: matched.params }
-  }))
+  window.dispatchEvent(
+    new CustomEvent('rgp:route-changed', {
+      detail: { path: hash, params: matched.params }
+    })
+  )
 }
 
 // Navigate to a new route
@@ -303,7 +309,9 @@ export function isActive(path: string): boolean {
 
 // Get route meta data
 export function getMeta(): Record<string, any> {
-  if (router.chain.length === 0) return {}
+  if (router.chain.length === 0) {
+    return {}
+  }
   return router.chain[router.chain.length - 1]?.record.meta || {}
 }
 
@@ -323,7 +331,7 @@ export function initRouter(): void {
   window.addEventListener('hashchange', () => {
     resolve()
   })
-  
+
   // Initial resolve
   resolve()
 }

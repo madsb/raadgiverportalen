@@ -34,37 +34,37 @@
 </template>
 
 <script setup lang="ts">
-import { inject, onMounted, ref } from 'vue';
+import { inject, onMounted, ref } from 'vue'
 
-const isVirksomhedsguiden = inject('isVirksomhedsguiden');
-const data = ref(null);
-const error = ref(false);
-const pending = ref(false);
+const isVirksomhedsguiden = inject('isVirksomhedsguiden')
+const data = ref(null)
+const error = ref(false)
+const pending = ref(false)
 
 onMounted(() => {
-  callAPI();
-});
+  callAPI()
+})
 
 async function callAPI(fail = false) {
-  data.value = null;
-  pending.value = true;
-  error.value = false;
-  const id = fail ? 'NaN' : 1;
+  data.value = null
+  pending.value = true
+  error.value = false
+  const id = fail ? 'NaN' : 1
 
   try {
     // Der anvendes native fetch fremfor axios her, da mock serveren (miragejs) ikke virker med passthrough + axios (https://github.com/miragejs/miragejs/issues/1006)
-    const response = await fetch(`https://jsonplaceholder.typicode.com/todos/${id}`);
+    const response = await fetch(`https://jsonplaceholder.typicode.com/todos/${id}`)
     if (!response.ok) {
-      throw new Error(`Response status: ${response.status}`);
+      throw new Error(`Response status: ${response.status}`)
     } else {
-      data.value = await response.json();
+      data.value = await response.json()
     }
   } catch (e) {
     // vil sørge for fejlbeskeder vises i DOM
-    error.value = true;
+    error.value = true
   } finally {
     // vil sørge for loading spinner skjules
-    pending.value = false;
+    pending.value = false
   }
 }
 </script>
