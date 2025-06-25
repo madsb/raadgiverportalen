@@ -7,11 +7,7 @@
 
         <!-- Main content will be managed via hash-based navigation -->
         <div id="app-content">
-          <!-- Content will be rendered here based on hash -->
-        </div>
-
-        <div class="demo-link-container">
-          <a href="#demo" class="demo-link"> Se demo komponenter </a>
+          <RouterView />
         </div>
       </div>
     </div>
@@ -22,9 +18,10 @@
 import { DataEvents, piwikService } from '@erst-vg/piwik-event-wrapper'
 import { DataEmits } from '@erst-vg/piwik-event-wrapper/lib/models/emits.model'
 import { VgDesignWrapper } from '@erst-vg/vg-design-wrapper'
-import { PropType, inject, onMounted, provide } from 'vue'
+import { PropType, inject, onMounted, onUnmounted, provide } from 'vue'
 import { Bruger } from '../models/bruger.model'
 import { Variant } from '../models/variant.model'
+import { initializeRouter, RouterView, getRouter } from '../router'
 
 const props = defineProps({
   variant: {
@@ -123,6 +120,9 @@ const emit = defineEmits([
  */
 piwikService.init(emit as DataEmits)
 
+// Initialize router
+const router = initializeRouter()
+
 onMounted(() => {
   /*
     Hvis Virksomhedsguiden tillader at leverandør-applikationen kan bede om en token uden brugeren aktivt gør noget.
@@ -132,32 +132,15 @@ onMounted(() => {
     emit('requestToken')
   }
 })
+
+onUnmounted(() => {
+  // Clean up router
+  if (router) {
+    router.destroy()
+  }
+})
 </script>
 
 <style lang="scss" scoped>
 @import '../styles/components/_applikation.scss';
-
-.demo-link-container {
-  position: fixed;
-  bottom: 1rem;
-  right: 1rem;
-  z-index: 100;
-}
-
-.demo-link {
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  background-color: #f5f5f5;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  text-decoration: none;
-  color: #333;
-  font-size: 0.875rem;
-  transition: all 0.2s ease;
-
-  &:hover {
-    background-color: #e0e0e0;
-    border-color: #bbb;
-  }
-}
 </style>

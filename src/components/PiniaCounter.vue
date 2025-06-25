@@ -8,17 +8,25 @@
     </p>
     <div class="mt-5">
       <h2 class="displayheading-1">{{ counter }}</h2>
+      <button class="button button-primary mt-3" @click="increment">Tæl op</button>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { createPinia, setActivePinia } from 'pinia'
+import { createPinia, getActivePinia, setActivePinia } from 'pinia'
 import { computed } from 'vue'
 import { useCounterStore } from '../stores/counter'
 
-const counterStore = useCounterStore()
-setActivePinia(createPinia())
+// Check if Pinia is already active, if not create and set it
+if (!getActivePinia()) {
+  setActivePinia(createPinia())
+}
 
+const counterStore = useCounterStore()
 const counter = computed(() => counterStore.counter)
+
+const increment = () => {
+  counterStore.incrementPinia()
+}
 </script>
