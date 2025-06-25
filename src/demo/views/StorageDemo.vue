@@ -20,7 +20,7 @@
     </AsyncErrorBoundary>
 
     <div class="back-nav">
-      <RouterLink to="/demo" class="button button-secondary"> Tilbage til demo oversigt </RouterLink>
+      <a href="#demo" class="button button-secondary"> Tilbage til demo oversigt </a>
     </div>
   </div>
 </template>
@@ -29,7 +29,6 @@
 import { inject } from 'vue'
 import StorageAPI from '../components/StorageAPI.vue'
 import AsyncErrorBoundary from '../../components/AsyncErrorBoundary.vue'
-import RouterLink from '../../router/RouterLink.vue'
 
 // Get injected values
 const token = inject('token', '')

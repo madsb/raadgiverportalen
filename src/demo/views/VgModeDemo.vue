@@ -9,7 +9,7 @@
     <VgMode :is-virksomhedsguiden="isVirksomhedsguiden" />
 
     <div class="back-nav">
-      <RouterLink to="/demo" class="button button-secondary"> Tilbage til demo oversigt </RouterLink>
+      <a href="#demo" class="button button-secondary"> Tilbage til demo oversigt </a>
     </div>
   </div>
 </template>
@@ -17,7 +17,6 @@
 <script setup lang="ts">
 import { inject } from 'vue'
 import VgMode from '../components/VgMode.vue'
-import RouterLink from '../../router/RouterLink.vue'
 
 const isVirksomhedsguiden = inject('isVirksomhedsguiden', true)
 </script>

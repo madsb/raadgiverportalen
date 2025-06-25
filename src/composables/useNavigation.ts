@@ -11,16 +11,16 @@ export interface NavigationState {
 /**
  * Composable for handling hash-based step navigation (e.g., wizards, multi-step forms)
  * Follows VG rules for navigation and tracking
- * 
+ *
  * ⚠️ COMPATIBILITY WARNING:
  * This composable is INCOMPATIBLE with the main router system. Do not use both together
  * as they will conflict over hash change events and hash format expectations.
- * 
+ *
  * Use this composable when:
  * - Building step-based workflows within a single component/page
  * - Creating wizards or multi-step forms
  * - Not using the main application router
- * 
+ *
  * Use the router system when:
  * - Building full application navigation
  * - Need route parameters, guards, and complex routing

@@ -39,7 +39,7 @@
       <div class="alert-body">
         <p class="alert-heading">⚠️ Navigation System Kompatibilitet</p>
         <p class="alert-text">
-          <strong>Brug IKKE denne trin navigation sammen med hovedrouteren!</strong><br>
+          <strong>Brug IKKE denne trin navigation sammen med hovedrouteren!</strong><br />
           Begge systemer lytter til hash ændringer og vil konflikte. Vælg én tilgang:
         </p>
         <ul class="alert-text">

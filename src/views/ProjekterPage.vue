@@ -3,10 +3,10 @@
     <h3>Projekter for kunde {{ kundeId }}</h3>
     <ul>
       <li>
-        <RouterLink :to="`/kunder/${kundeId}/projekter/1`">Projekt 1</RouterLink>
+        <a :href="`#kunder/${kundeId}/projekter/1`">Projekt 1</a>
       </li>
       <li>
-        <RouterLink :to="`/kunder/${kundeId}/projekter/2`">Projekt 2</RouterLink>
+        <a :href="`#kunder/${kundeId}/projekter/2`">Projekt 2</a>
       </li>
     </ul>
   </div>
@@ -14,10 +14,12 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { router } from '../router/router-core'
-import RouterLink from '../router/RouterLink.vue'
 
-const kundeId = computed(() => router.params.id || '')
+const kundeId = computed(() => {
+  const hash = window.location.hash.slice(1)
+  const match = hash.match(/kunder\/(\d+)/)
+  return match ? match[1] : ''
+})
 </script>
 
 <style scoped>

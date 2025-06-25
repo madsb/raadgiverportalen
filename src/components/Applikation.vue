@@ -5,10 +5,13 @@
       <div class="col-12">
         <h1>Rådgiverportalen</h1>
 
-        <RouterView />
+        <!-- Main content will be managed via hash-based navigation -->
+        <div id="app-content">
+          <!-- Content will be rendered here based on hash -->
+        </div>
 
         <div class="demo-link-container">
-          <RouterLink to="/demo" class="demo-link"> Se demo komponenter </RouterLink>
+          <a href="#demo" class="demo-link"> Se demo komponenter </a>
         </div>
       </div>
     </div>
@@ -22,8 +25,6 @@ import { VgDesignWrapper } from '@erst-vg/vg-design-wrapper'
 import { PropType, inject, onMounted, provide } from 'vue'
 import { Bruger } from '../models/bruger.model'
 import { Variant } from '../models/variant.model'
-import RouterView from '../router/RouterView.vue'
-import RouterLink from '../router/RouterLink.vue'
 
 const props = defineProps({
   variant: {

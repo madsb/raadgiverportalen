@@ -7,9 +7,12 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { router } from '../router/router-core'
 
-const kundeId = computed(() => router.params.id || '')
+const kundeId = computed(() => {
+  const hash = window.location.hash.slice(1)
+  const match = hash.match(/kunder\/(\d+)/)
+  return match ? match[1] : ''
+})
 </script>
 
 <style scoped>

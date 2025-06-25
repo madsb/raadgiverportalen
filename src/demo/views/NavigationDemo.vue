@@ -4,7 +4,9 @@
     <div class="alert alert-info mb-4">
       <div class="alert-body">
         <p class="alert-heading">Kompatibilitet</p>
-        <p class="alert-text">Dette trin navigation system er inkompatibelt med hovedrouteren. Brug kun til wizards/formularer inden for enkelte komponenter.</p>
+        <p class="alert-text">
+          Dette trin navigation system er inkompatibelt med hovedrouteren. Brug kun til wizards/formularer inden for enkelte komponenter.
+        </p>
       </div>
     </div>
     <p>
@@ -23,7 +25,7 @@
     </div>
 
     <div class="back-nav">
-      <RouterLink to="/demo" class="button button-secondary"> Tilbage til demo oversigt </RouterLink>
+      <a href="#demo" class="button button-secondary"> Tilbage til demo oversigt </a>
     </div>
   </div>
 </template>
@@ -32,7 +34,6 @@
 import { ref } from 'vue'
 import Navigation from '../components/Navigation.vue'
 import ErrorBoundary from '../../components/ErrorBoundary.vue'
-import RouterLink from '../../router/RouterLink.vue'
 
 const step = ref(1)
 const maxStep = ref(3)

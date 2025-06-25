@@ -23,7 +23,7 @@
     </section>
 
     <div class="back-nav">
-      <RouterLink to="/demo" class="button button-secondary"> Tilbage til demo oversigt </RouterLink>
+      <a href="#demo" class="button button-secondary"> Tilbage til demo oversigt </a>
     </div>
   </div>
 </template>
@@ -32,7 +32,6 @@
 import ExternalAPI from '../components/ExternalAPI.vue'
 import DataCollector from '../components/DataCollector.vue'
 import ErrorBoundary from '../../components/ErrorBoundary.vue'
-import RouterLink from '../../router/RouterLink.vue'
 </script>
 
 <style lang="scss" scoped>

@@ -3,18 +3,16 @@
     <h1>Kunder</h1>
     <ul>
       <li>
-        <RouterLink to="/kunder/1">Kunde 1</RouterLink>
+        <a href="#kunder/1">Kunde 1</a>
       </li>
       <li>
-        <RouterLink to="/kunder/2">Kunde 2</RouterLink>
+        <a href="#kunder/2">Kunde 2</a>
       </li>
     </ul>
   </div>
 </template>
 
-<script setup lang="ts">
-import RouterLink from '../router/RouterLink.vue'
-</script>
+<script setup lang="ts"></script>
 
 <style scoped>
 .kunder-page {

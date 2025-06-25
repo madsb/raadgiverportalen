@@ -39,7 +39,7 @@
     </section>
 
     <div class="back-nav">
-      <RouterLink to="/demo" class="button button-secondary"> Tilbage til demo oversigt </RouterLink>
+      <a href="#demo" class="button button-secondary"> Tilbage til demo oversigt </a>
     </div>
   </div>
 </template>
@@ -52,7 +52,6 @@ import ScopedStyling from '../components/ScopedStyling.vue'
 import StateComponent from '../components/StateComponent.vue'
 import DownloadComponent from '../components/DownloadComponent.vue'
 import ErrorBoundary from '../../components/ErrorBoundary.vue'
-import RouterLink from '../../router/RouterLink.vue'
 
 const variant = inject<any>('variant', null)
 const isVirksomhedsguiden = inject('isVirksomhedsguiden', true)

@@ -18,9 +18,7 @@
     <div class="alert alert-info mb-5">
       <div class="alert-body">
         <p class="alert-heading">Navigation Tilgange</p>
-        <p class="alert-text">
-          Denne applikation demonstrerer to navigation systemer som er <strong>inkompatible med hinanden</strong>:
-        </p>
+        <p class="alert-text">Denne applikation demonstrerer to navigation systemer som er <strong>inkompatible med hinanden</strong>:</p>
         <ul class="alert-text">
           <li><strong>Router System:</strong> Til fuld app navigation mellem sider (bruges i denne demo)</li>
           <li><strong>Trin Navigation:</strong> Til wizards/formularer inden for enkelte komponenter (se Navigation demo)</li>
@@ -32,50 +30,45 @@
     <div class="demo-navigation">
       <h2>Demo Sektioner</h2>
       <div class="demo-grid">
-        <RouterLink to="/demo/vg-mode" class="demo-card">
+        <a href="#demo/vg-mode" class="demo-card">
           <h3>VG Mode</h3>
           <p>Test om applikationen kører i Virksomhedsguiden eller standalone mode</p>
-        </RouterLink>
+        </a>
 
-        <RouterLink to="/demo/design" class="demo-card">
+        <a href="#demo/design" class="demo-card">
           <h3>Design System</h3>
           <p>DKFDS komponenter og VG design patterns</p>
-        </RouterLink>
+        </a>
 
-        <RouterLink to="/demo/auth" class="demo-card">
+        <a href="#demo/auth" class="demo-card">
           <h3>Authentication</h3>
           <p>Login flows og bruger håndtering</p>
-        </RouterLink>
+        </a>
 
-        <RouterLink to="/demo/storage" class="demo-card">
+        <a href="#demo/storage" class="demo-card">
           <h3>Storage API</h3>
           <p>Gem og hent data via VG's storage API</p>
-        </RouterLink>
+        </a>
 
-        <RouterLink to="/demo/navigation" class="demo-card">
+        <a href="#demo/navigation" class="demo-card">
           <h3>Step Navigation</h3>
           <p>Wizard/form navigation (incompatible med router)</p>
-        </RouterLink>
+        </a>
 
-        <RouterLink to="/demo/components" class="demo-card">
+        <a href="#demo/components" class="demo-card">
           <h3>Komponenter</h3>
           <p>Diverse komponenter og patterns</p>
-        </RouterLink>
+        </a>
 
-        <RouterLink to="/demo/api" class="demo-card">
+        <a href="#demo/api" class="demo-card">
           <h3>API & Data</h3>
           <p>Eksterne API kald og data indsamling</p>
-        </RouterLink>
+        </a>
 
-        <RouterLink to="/demo/error-handling" class="demo-card">
+        <a href="#demo/error-handling" class="demo-card">
           <h3>Error Handling</h3>
           <p>Error boundaries og fejlhåndtering</p>
-        </RouterLink>
-
-        <RouterLink to="/demo/router" class="demo-card">
-          <h3>Router System</h3>
-          <p>Full app navigation med routes og guards</p>
-        </RouterLink>
+        </a>
       </div>
     </div>
   </div>
@@ -83,7 +76,6 @@
 
 <script setup lang="ts">
 import { inject } from 'vue'
-import RouterLink from '../../router/RouterLink.vue'
 
 // Get props from provider
 const applikationId = inject('applikationId', '')
