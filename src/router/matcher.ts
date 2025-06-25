@@ -56,15 +56,24 @@ export class RouteMatcher {
       return matches
     }
 
-    // Check children if segments continue
-    if (route.children && segments.length > routeSegments.length) {
+    // Check children if we have them
+    if (route.children) {
       const remainingSegments = segments.slice(routeSegments.length)
 
       for (const child of route.children) {
-        const childMatches = this.matchRoute(child, remainingSegments, fullPath, params)
-
-        if (childMatches.length > 0) {
-          return [...matches, ...childMatches]
+        // Handle empty path children when parent matches exactly
+        if (child.path === '' && segments.length === routeSegments.length) {
+          const childMatches = this.matchRoute(child, [], fullPath, params)
+          if (childMatches.length > 0) {
+            return [...matches, ...childMatches]
+          }
+        }
+        // Handle normal children with remaining segments
+        else if (segments.length > routeSegments.length) {
+          const childMatches = this.matchRoute(child, remainingSegments, fullPath, params)
+          if (childMatches.length > 0) {
+            return [...matches, ...childMatches]
+          }
         }
       }
     }
