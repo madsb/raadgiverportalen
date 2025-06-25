@@ -30,45 +30,45 @@
     <div class="demo-navigation">
       <h2>Demo Sektioner</h2>
       <div class="demo-grid">
-        <a href="#demo/vg-mode" class="demo-card">
+        <RouterLink to="/demo/vg-mode" class="demo-card">
           <h3>VG Mode</h3>
           <p>Test om applikationen kører i Virksomhedsguiden eller standalone mode</p>
-        </a>
+        </RouterLink>
 
-        <a href="#demo/design" class="demo-card">
+        <RouterLink to="/demo/design" class="demo-card">
           <h3>Design System</h3>
           <p>DKFDS komponenter og VG design patterns</p>
-        </a>
+        </RouterLink>
 
-        <a href="#demo/auth" class="demo-card">
+        <RouterLink to="/demo/auth" class="demo-card">
           <h3>Authentication</h3>
           <p>Login flows og bruger håndtering</p>
-        </a>
+        </RouterLink>
 
-        <a href="#demo/storage" class="demo-card">
+        <RouterLink to="/demo/storage" class="demo-card">
           <h3>Storage API</h3>
           <p>Gem og hent data via VG's storage API</p>
-        </a>
+        </RouterLink>
 
-        <a href="#demo/navigation" class="demo-card">
+        <RouterLink to="/demo/navigation" class="demo-card">
           <h3>Step Navigation</h3>
           <p>Wizard/form navigation (incompatible med router)</p>
-        </a>
+        </RouterLink>
 
-        <a href="#demo/components" class="demo-card">
+        <RouterLink to="/demo/components" class="demo-card">
           <h3>Komponenter</h3>
           <p>Diverse komponenter og patterns</p>
-        </a>
+        </RouterLink>
 
-        <a href="#demo/api" class="demo-card">
+        <RouterLink to="/demo/api" class="demo-card">
           <h3>API & Data</h3>
           <p>Eksterne API kald og data indsamling</p>
-        </a>
+        </RouterLink>
 
-        <a href="#demo/error-handling" class="demo-card">
+        <RouterLink to="/demo/error-handling" class="demo-card">
           <h3>Error Handling</h3>
           <p>Error boundaries og fejlhåndtering</p>
-        </a>
+        </RouterLink>
       </div>
     </div>
   </div>
@@ -76,6 +76,7 @@
 
 <script setup lang="ts">
 import { inject } from 'vue'
+import { RouterLink } from '../../router'
 
 // Get props from provider
 const applikationId = inject('applikationId', '')

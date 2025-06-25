@@ -5,6 +5,7 @@
 
     <div class="navigation-links">
       <RouterLink to="/demo" class="button button-primary"> Se demo komponenter </RouterLink>
+      <RouterLink to="/demo/state/details" class="button button-secondary ml-3"> Direkte til nested route </RouterLink>
     </div>
   </div>
 </template>
